@@ -63,7 +63,7 @@ describe('App Integration Tests', () => {
     // Navigate to templates
     await user.click(screen.getByText('Templates'));
     await waitFor(() => {
-      expect(screen.getByText('Content Templates')).toBeInTheDocument();
+      expect(screen.getByText('Task Templates')).toBeInTheDocument();
     });
 
     // Navigate to calendar
@@ -90,7 +90,7 @@ describe('App Integration Tests', () => {
 
     // Verify localStorage initialization calls
     expect(mockLocalStorage.getItem).toHaveBeenCalledWith('mcm_channels');
-    expect(mockLocalStorage.getItem).toHaveBeenCalledWith('mcm_templates');
+    expect(mockLocalStorage.getItem).toHaveBeenCalledWith('mcm_task_templates');
     expect(mockLocalStorage.getItem).toHaveBeenCalledWith('mcm_schedules');
     expect(mockLocalStorage.getItem).toHaveBeenCalledWith('mcm_user_settings');
   });
@@ -166,7 +166,7 @@ describe('App Integration Tests', () => {
     // Navigate to templates
     await user.click(screen.getByText('Templates'));
     await waitFor(() => {
-      expect(screen.getByText('Content Templates')).toBeInTheDocument();
+      expect(screen.getByText('Task Templates')).toBeInTheDocument();
     });
 
     // The active state should be maintained

@@ -16,6 +16,7 @@ describe('WorkloadCalculationEngine', () => {
       color: '#ff0000',
       createdAt: new Date('2024-01-01'),
       isActive: true,
+      assignedTasks: [],
     },
     {
       id: 'channel2',
@@ -29,6 +30,7 @@ describe('WorkloadCalculationEngine', () => {
       color: '#00ff00',
       createdAt: new Date('2024-01-01'),
       isActive: true,
+      assignedTasks: [],
     },
   ];
 
@@ -37,31 +39,34 @@ describe('WorkloadCalculationEngine', () => {
       id: 'task1',
       channelId: 'channel1',
       title: 'Gaming Video 1',
-      contentType: 'video',
       estimatedHours: 8,
       status: 'planned',
       scheduledStart: new Date('2024-01-01T09:00:00'),
       scheduledEnd: new Date('2024-01-01T17:00:00'),
+      timeSlot: 'morning',
+      priority: 'medium',
     },
     {
       id: 'task2',
       channelId: 'channel2',
       title: 'Educational Video 1',
-      contentType: 'video',
       estimatedHours: 6,
       status: 'in-progress',
       scheduledStart: new Date('2024-01-02T10:00:00'),
       scheduledEnd: new Date('2024-01-02T16:00:00'),
+      timeSlot: 'afternoon',
+      priority: 'high',
     },
     {
       id: 'task3',
       channelId: 'channel1',
       title: 'Gaming Video 2',
-      contentType: 'video',
       estimatedHours: 4,
       status: 'completed',
       scheduledStart: new Date('2024-01-03T09:00:00'),
       scheduledEnd: new Date('2024-01-03T13:00:00'),
+      timeSlot: 'morning',
+      priority: 'low',
     },
   ];
 

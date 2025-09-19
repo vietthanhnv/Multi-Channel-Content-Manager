@@ -4,7 +4,7 @@ export interface BackupData {
   version: string;
   timestamp: Date;
   channels: Channel[];
-  templates: ContentTemplate[];
+  templates: TaskTemplate[];
   schedules: Record<string, WeeklySchedule>;
   userSettings: any;
 }

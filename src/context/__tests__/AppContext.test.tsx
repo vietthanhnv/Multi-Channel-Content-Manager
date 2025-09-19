@@ -20,6 +20,7 @@ const TestComponent: React.FC = () => {
       color: '#ef4444',
       createdAt: new Date(),
       isActive: true,
+      assignedTasks: [],
     };
 
     dispatch({ type: 'ADD_CHANNEL', payload: testChannel });

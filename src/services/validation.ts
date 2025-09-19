@@ -402,7 +402,7 @@ export class BusinessRuleValidator {
   /**
    * Check referential integrity between templates and tasks
    */
-  static checkTemplateTaskIntegrity(templates: ContentTemplate[], tasks: Task[]): ValidationError[] {
+  static checkTemplateTaskIntegrity(templates: TaskTemplate[], tasks: Task[]): ValidationError[] {
     const errors: ValidationError[] = [];
     const templateIds = new Set(templates.map(t => t.id));
     
@@ -421,7 +421,7 @@ export class BusinessRuleValidator {
   /**
    * Check template channel associations
    */
-  static checkTemplateChannelIntegrity(templates: ContentTemplate[], channels: Channel[]): ValidationError[] {
+  static checkTemplateChannelIntegrity(templates: TaskTemplate[], channels: Channel[]): ValidationError[] {
     const errors: ValidationError[] = [];
     const channelIds = new Set(channels.map(c => c.id));
     
@@ -485,8 +485,8 @@ export class DataValidator {
     }
 
     // Business rule validations
-    if (state.channels && state.templates) {
-      const templateChannelErrors = BusinessRuleValidator.checkTemplateChannelIntegrity(state.templates, state.channels);
+    if (state.channels && state.taskTemplates) {
+      const templateChannelErrors = BusinessRuleValidator.checkTemplateChannelIntegrity(state.taskTemplates, state.channels);
       errors.push(...templateChannelErrors);
     }
 
@@ -495,8 +495,8 @@ export class DataValidator {
       errors.push(...channelTaskErrors);
     }
 
-    if (state.templates && state.currentWeek) {
-      const templateTaskErrors = BusinessRuleValidator.checkTemplateTaskIntegrity(state.templates, state.currentWeek.tasks);
+    if (state.taskTemplates && state.currentWeek) {
+      const templateTaskErrors = BusinessRuleValidator.checkTemplateTaskIntegrity(state.taskTemplates, state.currentWeek.tasks);
       errors.push(...templateTaskErrors);
     }
 

@@ -105,6 +105,7 @@ describe('ChannelValidator', () => {
     color: '#ff0000',
     createdAt: new Date('2024-01-01'),
     isActive: true,
+    assignedTasks: [],
   };
 
   it('should validate a valid channel', () => {
@@ -234,11 +235,12 @@ describe('TaskValidator', () => {
     channelId: 'channel-1',
     templateId: 'template-1',
     title: 'Test Task',
-    contentType: 'video',
     estimatedHours: 8,
     status: 'planned',
     scheduledStart: new Date('2024-01-01T10:00:00'),
     scheduledEnd: new Date('2024-01-01T18:00:00'),
+    timeSlot: 'morning',
+    priority: 'medium',
     actualHours: 7.5,
     notes: 'Test notes',
   };
@@ -302,11 +304,12 @@ describe('ScheduleValidator', () => {
       id: '',
       channelId: 'channel-1',
       title: 'Invalid Task',
-      contentType: 'video' as const,
       estimatedHours: 8,
       status: 'planned' as const,
       scheduledStart: new Date('2024-01-01T10:00:00'),
       scheduledEnd: new Date('2024-01-01T18:00:00'),
+      timeSlot: 'morning' as const,
+      priority: 'medium' as const,
     };
     const invalidSchedule = { ...validSchedule, tasks: [invalidTask] };
     const result = ScheduleValidator.validate(invalidSchedule);
@@ -320,22 +323,24 @@ describe('BusinessRuleValidator', () => {
     id: 'task-1',
     channelId: 'channel-1',
     title: 'Task 1',
-    contentType: 'video',
     estimatedHours: 4,
     status: 'planned',
     scheduledStart: new Date('2024-01-01T10:00:00'),
     scheduledEnd: new Date('2024-01-01T14:00:00'),
+    timeSlot: 'morning',
+    priority: 'medium',
   };
 
   const task2: Task = {
     id: 'task-2',
     channelId: 'channel-1',
     title: 'Task 2',
-    contentType: 'video',
     estimatedHours: 4,
     status: 'planned',
     scheduledStart: new Date('2024-01-01T12:00:00'),
     scheduledEnd: new Date('2024-01-01T16:00:00'),
+    timeSlot: 'afternoon',
+    priority: 'medium',
   };
 
   describe('checkSchedulingConflicts', () => {
@@ -396,6 +401,7 @@ describe('BusinessRuleValidator', () => {
       color: '#ff0000',
       createdAt: new Date(),
       isActive: true,
+      assignedTasks: [],
     }];
 
     it('should detect invalid channel references', () => {
@@ -423,11 +429,12 @@ describe('DataValidator', () => {
         preferredDays: ['Monday'],
         preferredTimes: ['10:00'],
       },
+      assignedTasks: [],
       color: '#ff0000',
       createdAt: new Date(),
       isActive: true,
     }],
-    templates: [{
+    taskTemplates: [{
       id: 'template-1',
       name: 'Test Template',
       contentType: 'video',
@@ -447,11 +454,12 @@ describe('DataValidator', () => {
         channelId: 'channel-1',
         templateId: 'template-1',
         title: 'Test Task',
-        contentType: 'video',
         estimatedHours: 8,
         status: 'planned',
         scheduledStart: new Date('2024-01-01T10:00:00'),
         scheduledEnd: new Date('2024-01-01T18:00:00'),
+        timeSlot: 'morning',
+        priority: 'medium',
       }],
       totalScheduledHours: 8,
       userCapacityHours: 40,

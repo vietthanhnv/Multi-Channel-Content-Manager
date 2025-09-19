@@ -10,7 +10,7 @@ export interface ExportData {
   version: string;
   exportDate: string;
   channels: Channel[];
-  templates: ContentTemplate[];
+  templates: TaskTemplate[];
   schedules: Record<string, WeeklySchedule>;
   userSettings: AppState['userSettings'];
 }
@@ -68,7 +68,7 @@ export class DataExportService {
         version: APP_VERSION,
         exportDate: new Date().toISOString(),
         channels: localStorageService.getChannels(),
-        taskTemplates: localStorageService.getTaskTemplates(),
+        templates: localStorageService.getTaskTemplates(),
         schedules: localStorageService.getSchedules(),
         userSettings: localStorageService.getUserSettings(),
       };
@@ -150,7 +150,7 @@ export class DataExportService {
       if (options.validateData) {
         const dataValidation = DataValidator.validateAppState({
           channels: importData.channels,
-          taskTemplates: importData.taskTemplates,
+          templates: importData.templates,
           currentWeek: Object.values(importData.schedules)[0] // Validate first schedule as sample
         });
         
@@ -363,7 +363,7 @@ export class DataExportService {
   /**
    * Import templates with merge logic
    */
-  private async importTemplates(templates: ContentTemplate[], mergeMode: ImportOptions['mergeMode']): Promise<{
+  private async importTemplates(templates: TaskTemplate[], mergeMode: ImportOptions['mergeMode']): Promise<{
     imported: number;
     skipped: number;
     errors: ValidationError[];
