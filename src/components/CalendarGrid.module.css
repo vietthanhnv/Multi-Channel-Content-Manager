@@ -1,0 +1,377 @@
+.calendarGrid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 80px repeat(7, 1fr);
+  background: #f9fafb;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.timeColumn {
+  border-right: 1px solid #e5e7eb;
+}
+
+.dayHeader {
+  padding: 12px 8px;
+  text-align: center;
+  border-right: 1px solid #e5e7eb;
+  font-weight: 600;
+  color: #374151;
+}
+
+.dayHeader:last-child {
+  border-right: none;
+}
+
+.dayHeader.nonWorkingDay {
+  background: #f3f4f6;
+  color: #9ca3af;
+}
+
+.dayName {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.dayDate {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.gridBody {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 600px;
+}
+
+.timeRow {
+  display: grid;
+  grid-template-columns: 80px repeat(7, 1fr);
+  min-height: 60px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.timeRow:last-child {
+  border-bottom: none;
+}
+
+.timeLabel {
+  padding: 8px;
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: #fafafa;
+}
+
+/* Mobile-First Responsive Design */
+
+/* Tablet and Desktop Optimizations */
+@media (min-width: 769px) {
+  .calendarGrid {
+    border-radius: 12px;
+  }
+  
+  .header {
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .dayHeader {
+    padding: 16px 12px;
+  }
+  
+  .dayName {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  
+  .dayDate {
+    font-size: 20px;
+  }
+  
+  .timeLabel {
+    padding: 12px 8px;
+    font-size: 13px;
+  }
+  
+  .timeRow {
+    min-height: 70px;
+  }
+}
+
+/* Large Tablet and Small Desktop */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .header {
+    grid-template-columns: 70px repeat(7, 1fr);
+  }
+  
+  .timeRow {
+    grid-template-columns: 70px repeat(7, 1fr);
+  }
+  
+  .timeLabel {
+    font-size: 12px;
+    padding: 8px 6px;
+  }
+  
+  .dayHeader {
+    padding: 12px 8px;
+  }
+  
+  .dayName {
+    font-size: 13px;
+  }
+  
+  .dayDate {
+    font-size: 18px;
+  }
+  
+  .timeRow {
+    min-height: 60px;
+  }
+}
+
+/* Mobile and Small Tablet */
+@media (max-width: 768px) {
+  .calendarGrid {
+    font-size: 12px;
+    border-radius: 8px;
+    margin: 0 -8px; /* Extend to edges on mobile */
+  }
+  
+  .header {
+    grid-template-columns: 45px repeat(7, 1fr);
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .timeRow {
+    grid-template-columns: 45px repeat(7, 1fr);
+    min-height: 50px;
+  }
+  
+  .timeLabel {
+    font-size: 10px;
+    padding: 4px 2px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+  
+  .dayHeader {
+    padding: 8px 4px;
+  }
+  
+  .dayName {
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+  
+  .dayDate {
+    font-size: 16px;
+  }
+  
+  .gridBody {
+    max-height: 60vh;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Enhanced touch targets */
+  .dayHeader {
+    min-height: 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .dayHeader:hover {
+    background-color: rgba(59, 130, 246, 0.05);
+  }
+}
+
+/* Small Mobile Phones */
+@media (max-width: 480px) {
+  .calendarGrid {
+    margin: 0 -12px;
+    border-radius: 6px;
+  }
+  
+  .header {
+    grid-template-columns: 40px repeat(7, 1fr);
+    border-radius: 6px 6px 0 0;
+  }
+  
+  .timeRow {
+    grid-template-columns: 40px repeat(7, 1fr);
+    min-height: 45px;
+  }
+  
+  .timeLabel {
+    font-size: 9px;
+    padding: 2px 1px;
+  }
+  
+  .dayHeader {
+    padding: 6px 2px;
+    min-height: 40px;
+  }
+  
+  .dayName {
+    font-size: 10px;
+    margin-bottom: 1px;
+  }
+  
+  .dayDate {
+    font-size: 14px;
+  }
+  
+  .gridBody {
+    max-height: 50vh;
+  }
+}
+
+/* Extra Small Mobile Phones */
+@media (max-width: 360px) {
+  .header {
+    grid-template-columns: 35px repeat(7, 1fr);
+  }
+  
+  .timeRow {
+    grid-template-columns: 35px repeat(7, 1fr);
+    min-height: 40px;
+  }
+  
+  .timeLabel {
+    font-size: 8px;
+    padding: 1px;
+  }
+  
+  .dayHeader {
+    padding: 4px 1px;
+    min-height: 36px;
+  }
+  
+  .dayName {
+    font-size: 9px;
+  }
+  
+  .dayDate {
+    font-size: 12px;
+  }
+}
+
+/* Landscape Mobile Orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+  .gridBody {
+    max-height: 40vh;
+  }
+  
+  .timeRow {
+    min-height: 40px;
+  }
+  
+  .dayHeader {
+    padding: 6px 3px;
+    min-height: 36px;
+  }
+  
+  .dayName {
+    font-size: 10px;
+  }
+  
+  .dayDate {
+    font-size: 14px;
+  }
+}
+
+/* High DPI Mobile Displays */
+@media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+  .calendarGrid {
+    border-width: 0.5px;
+  }
+  
+  .header {
+    border-bottom-width: 1px;
+  }
+  
+  .timeRow {
+    border-bottom-width: 0.5px;
+  }
+  
+  .timeLabel {
+    border-right-width: 0.5px;
+  }
+  
+  .dayHeader {
+    border-right-width: 0.5px;
+  }
+}
+
+/* Dark Mode Support for Mobile */
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+  .calendarGrid {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+  
+  .header {
+    background-color: #111827;
+  }
+  
+  .dayHeader {
+    color: #f9fafb;
+    border-color: #374151;
+  }
+  
+  .dayHeader.nonWorkingDay {
+    background-color: #374151;
+    color: #9ca3af;
+  }
+  
+  .timeLabel {
+    background-color: #111827;
+    color: #9ca3af;
+    border-color: #374151;
+  }
+  
+  .timeRow {
+    border-color: #374151;
+  }
+}
+
+/* Accessibility Improvements */
+@media (max-width: 768px) {
+  .dayHeader:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: -2px;
+  }
+  
+  .timeLabel:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: -2px;
+  }
+}
+
+/* Reduced Motion for Mobile */
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .dayHeader {
+    transition: none;
+  }
+  
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

@@ -1,0 +1,487 @@
+/* Touch-Friendly and Mobile Drag-and-Drop Styles */
+
+/* Touch Target Standards */
+.touchTarget {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.touchTargetLarge {
+  min-height: 56px;
+  min-width: 56px;
+}
+
+/* Touch-Friendly Buttons */
+.touchButton {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.touchButton:active {
+  transform: scale(0.98);
+}
+
+.touchButtonPrimary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.touchButtonPrimary:hover {
+  background-color: #2563eb;
+}
+
+.touchButtonPrimary:active {
+  background-color: #1d4ed8;
+}
+
+.touchButtonSecondary {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.touchButtonSecondary:hover {
+  background-color: #e5e7eb;
+}
+
+.touchButtonSecondary:active {
+  background-color: #d1d5db;
+}
+
+/* Mobile Drag and Drop */
+.mobileDraggable {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: none;
+  position: relative;
+}
+
+.mobileDraggable:active {
+  cursor: grabbing;
+}
+
+.mobileDraggable.dragging {
+  opacity: 0.8;
+  transform: scale(1.05);
+  z-index: 1000;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Drag Handle for Mobile */
+.dragHandle {
+  display: none;
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 8h16M4 16h16' /%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px 16px;
+  cursor: grab;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.dragHandle:hover {
+  opacity: 1;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+/* Show drag handles on mobile */
+@media (max-width: 768px) {
+  .dragHandle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Touch-Friendly Drop Zones */
+.touchDropZone {
+  min-height: 60px;
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  background-color: #f9fafb;
+}
+
+.touchDropZone.active {
+  border-color: #3b82f6;
+  background-color: #dbeafe;
+}
+
+.touchDropZone.hover {
+  border-color: #10b981;
+  background-color: #d1fae5;
+}
+
+.touchDropZone.invalid {
+  border-color: #ef4444;
+  background-color: #fee2e2;
+}
+
+/* Mobile-Specific Drop Zone */
+@media (max-width: 768px) {
+  .touchDropZone {
+    min-height: 80px;
+    font-size: 14px;
+    padding: 16px;
+  }
+}
+
+/* Touch Feedback */
+.touchFeedback {
+  position: relative;
+  overflow: hidden;
+}
+
+.touchFeedback::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.touchFeedback:active::after {
+  width: 200px;
+  height: 200px;
+}
+
+/* Swipe Actions */
+.swipeContainer {
+  position: relative;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.swipeContent {
+  transition: transform 0.3s ease;
+  background-color: white;
+  position: relative;
+  z-index: 2;
+}
+
+.swipeActions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.swipeAction {
+  height: 100%;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.swipeActionEdit {
+  background-color: #f59e0b;
+}
+
+.swipeActionDelete {
+  background-color: #ef4444;
+}
+
+.swipeActionComplete {
+  background-color: #10b981;
+}
+
+/* Long Press Support */
+.longPressTarget {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.longPressTarget.longPressing {
+  background-color: rgba(59, 130, 246, 0.1);
+  transform: scale(0.98);
+}
+
+/* Mobile Calendar Enhancements */
+.mobileCalendarGrid {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobileTimeSlot {
+  min-height: 60px;
+  position: relative;
+  touch-action: manipulation;
+}
+
+.mobileTimeSlot.dragging {
+  background-color: #dbeafe;
+  border: 2px solid #3b82f6;
+}
+
+.mobileTaskCard {
+  background-color: white;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 2px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  position: relative;
+}
+
+.mobileTaskCard:active {
+  cursor: grabbing;
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.mobileTaskCard.dragging {
+  opacity: 0.8;
+  z-index: 1000;
+}
+
+/* Mobile Modal Enhancements */
+.mobileModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  z-index: 1000;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobileModalHeader {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.mobileModalContent {
+  padding: 16px;
+  padding-bottom: 100px; /* Space for fixed footer */
+}
+
+.mobileModalFooter {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-top: 1px solid #e5e7eb;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+}
+
+/* Touch-Friendly Form Controls */
+.touchInput {
+  min-height: 44px;
+  padding: 12px 16px;
+  font-size: 16px; /* Prevents zoom on iOS */
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  transition: border-color 0.2s ease;
+}
+
+.touchInput:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.touchSelect {
+  min-height: 44px;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.touchCheckbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.touchRadio {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Mobile Navigation */
+.mobileNav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  z-index: 100;
+}
+
+.mobileNavItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 12px;
+  min-width: 60px;
+  text-decoration: none;
+  color: #6b7280;
+  transition: color 0.2s ease;
+  touch-action: manipulation;
+}
+
+.mobileNavItem:hover,
+.mobileNavItem.active {
+  color: #3b82f6;
+}
+
+.mobileNavIcon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+}
+
+.mobileNavLabel {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Accessibility for Touch */
+.touchAccessible {
+  outline: none;
+}
+
+.touchAccessible:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Haptic Feedback Simulation */
+.hapticFeedback {
+  transition: transform 0.1s ease;
+}
+
+.hapticFeedback:active {
+  transform: scale(0.95);
+}
+
+/* Prevent Text Selection During Drag */
+.preventSelect {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Mobile-Specific Media Queries */
+@media (max-width: 480px) {
+  .touchButton {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+  
+  .touchDropZone {
+    min-height: 100px;
+    font-size: 16px;
+    padding: 20px;
+  }
+  
+  .mobileTaskCard {
+    padding: 12px 16px;
+    margin: 4px 0;
+  }
+  
+  .touchInput,
+  .touchSelect {
+    min-height: 48px;
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+}
+
+/* Landscape Mobile Adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mobileModal {
+    padding-top: 0;
+  }
+  
+  .mobileModalHeader {
+    padding: 12px 16px;
+  }
+  
+  .mobileModalContent {
+    padding: 12px 16px;
+    padding-bottom: 80px;
+  }
+  
+  .mobileModalFooter {
+    padding: 12px 16px;
+  }
+  
+  .mobileNav {
+    padding: 4px 0;
+  }
+  
+  .mobileNavItem {
+    padding: 4px 8px;
+  }
+}

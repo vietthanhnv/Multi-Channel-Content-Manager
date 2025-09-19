@@ -1,0 +1,422 @@
+.panel {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e5e9;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.header h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.statusGood {
+  color: #27ae60;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.statusOverloaded {
+  color: #e74c3c;
+  font-weight: 500;
+  font-size: 0.9rem;
+  background: #fdf2f2;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.overloadStatus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.impactSummary {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.impactSummary h4 {
+  margin: 0 0 12px 0;
+  color: #2c3e50;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.impactMetrics {
+  display: flex;
+  gap: 24px;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.metricValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3498db;
+  line-height: 1;
+}
+
+.metricLabel {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-top: 4px;
+}
+
+.quickWins {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #f39c12;
+}
+
+.quickWins h4 {
+  margin: 0 0 8px 0;
+  color: #d68910;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.quickWinsDescription {
+  margin: 0 0 12px 0;
+  color: #8d6e63;
+  font-size: 0.9rem;
+}
+
+.quickWinCard {
+  background: white;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid #f39c12;
+}
+
+.quickWinCard:last-child {
+  margin-bottom: 0;
+}
+
+.quickWinHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.quickWinTitle {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.9rem;
+}
+
+.quickApplyButton {
+  background: #f39c12;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.quickApplyButton:hover:not(:disabled) {
+  background: #e67e22;
+}
+
+.quickApplyButton:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+}
+
+.suggestions h4 {
+  margin: 0 0 16px 0;
+  color: #2c3e50;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.suggestion {
+  border: 1px solid #e1e5e9;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: white;
+  transition: box-shadow 0.2s;
+}
+
+.suggestion:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.priorityHigh {
+  border-left: 4px solid #e74c3c;
+}
+
+.priorityMedium {
+  border-left: 4px solid #f39c12;
+}
+
+.priorityLow {
+  border-left: 4px solid #3498db;
+}
+
+.suggestionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.suggestionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.suggestionTitle h5 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.priorityBadge {
+  background: #ecf0f1;
+  color: #2c3e50;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.priorityHigh .priorityBadge {
+  background: #fadbd8;
+  color: #c0392b;
+}
+
+.priorityMedium .priorityBadge {
+  background: #fdeaa7;
+  color: #d68910;
+}
+
+.priorityLow .priorityBadge {
+  background: #d6eaf8;
+  color: #2980b9;
+}
+
+.effortBadge {
+  background: #f8f9fa;
+  color: #6c757d;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.suggestionActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.expandButton {
+  background: none;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  color: #7f8c8d;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.expandButton:hover {
+  background: #ecf0f1;
+  color: #2c3e50;
+}
+
+.applyButton {
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.applyButton:hover:not(:disabled) {
+  background: #229954;
+}
+
+.applyButton:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+}
+
+.suggestionDescription {
+  margin: 0 0 12px 0;
+  color: #5d6d7e;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.suggestionImpact {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.impactItem {
+  background: #f8f9fa;
+  color: #495057;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.suggestionDetails {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e1e5e9;
+}
+
+.suggestionDetails h6 {
+  margin: 0 0 12px 0;
+  color: #2c3e50;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action {
+  background: #f8f9fa;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.actionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.actionType {
+  background: #e9ecef;
+  color: #495057;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.taskTitle {
+  color: #2c3e50;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.actionReason {
+  margin: 0 0 8px 0;
+  color: #6c757d;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.scheduleComparison {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.scheduleItem {
+  font-size: 0.8rem;
+  color: #495057;
+}
+
+.scheduleTime {
+  color: #6c757d;
+  font-size: 0.75rem;
+}
+
+.noSuggestions {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6c757d;
+}
+
+.noSuggestions p {
+  margin: 0 0 8px 0;
+  font-size: 0.9rem;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: #95a5a6;
+  font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .panel {
+    padding: 16px;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .impactMetrics {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .suggestionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .suggestionTitle {
+    flex-wrap: wrap;
+  }
+  
+  .scheduleComparison {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

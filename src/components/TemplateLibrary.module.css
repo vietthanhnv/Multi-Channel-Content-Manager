@@ -1,0 +1,285 @@
+.templateLibrary {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.virtualTemplateList {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.virtualTemplateList .templateCard {
+  margin: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.virtualTemplateList .templateCard:last-child {
+  border-bottom: none;
+}
+
+.header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.createButton {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.createButton:hover {
+  background: #0056b3;
+}
+
+.filters {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.filters label {
+  font-weight: 500;
+  color: #555;
+}
+
+.filterSelect {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+.emptyState p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.createFirstButton {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.createFirstButton:hover {
+  background: #1e7e34;
+}
+
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.templateCard {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.templateCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.templateHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.templateName {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #333;
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.contentTypeBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.contentTypeBadge.video {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.contentTypeBadge.short {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.contentTypeBadge.post {
+  background: #e8f5e8;
+  color: #388e3c;
+}
+
+.templateDetails {
+  margin-bottom: 1.5rem;
+}
+
+.timeEstimate {
+  margin-bottom: 1rem;
+}
+
+.timeEstimate strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.timeBreakdown {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.workflowSteps {
+  margin-bottom: 1rem;
+}
+
+.workflowSteps strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.workflowSteps ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.workflowSteps li {
+  margin-bottom: 0.25rem;
+}
+
+.assignedChannels strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.assignedChannels p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+}
+
+.templateActions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.editButton {
+  background: #ffc107;
+  color: #212529;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.editButton:hover {
+  background: #e0a800;
+}
+
+.deleteButton {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.deleteButton:hover {
+  background: #c82333;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .templateLibrary {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .templateGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .templateHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .templateName {
+    margin-right: 0;
+  }
+
+  .timeBreakdown {
+    grid-template-columns: 1fr;
+  }
+
+  .templateActions {
+    justify-content: stretch;
+  }
+
+  .editButton,
+  .deleteButton {
+    flex: 1;
+  }
+}

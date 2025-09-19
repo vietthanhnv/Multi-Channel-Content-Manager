@@ -1,0 +1,44 @@
+.virtualScrollContainer {
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.virtualScrollItem {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Smooth scrolling */
+.virtualScrollContainer {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar styling */
+.virtualScrollContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.virtualScrollContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.virtualScrollContainer::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.virtualScrollContainer::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Performance optimizations */
+.virtualScrollContainer {
+  will-change: scroll-position;
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+.virtualScrollItem {
+  contain: layout style paint;
+}

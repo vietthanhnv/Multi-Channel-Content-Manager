@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Features Demo - Multi-Channel Content Manager</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .title {
+            color: #1f2937;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .description {
+            color: #6b7280;
+            font-size: 1.125rem;
+            line-height: 1.6;
+        }
+        .demo-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #f9fafb;
+        }
+        .demo-title {
+            color: #1f2937;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        .feature-list li::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .keyboard-shortcuts {
+            background: #1f2937;
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+        .keyboard-shortcuts h4 {
+            margin-top: 0;
+            color: #60a5fa;
+        }
+        .shortcut {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+        }
+        .key {
+            background: #374151;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+        .instructions {
+            background: #dbeafe;
+            border: 1px solid #3b82f6;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .instructions h4 {
+            margin-top: 0;
+            color: #1e40af;
+        }
+        .warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .warning h4 {
+            margin-top: 0;
+            color: #92400e;
+        }
+        .react-root {
+            margin-top: 2rem;
+            padding: 1rem;
+            border: 2px dashed #3b82f6;
+            border-radius: 8px;
+            text-align: center;
+            color: #6b7280;
+        }
+        
+        /* High Contrast Mode Support */
+        @media (prefers-contrast: high) {
+            body {
+                background-color: Canvas;
+                color: CanvasText;
+            }
+            .container {
+                background-color: Canvas;
+                color: CanvasText;
+                border: 2px solid ButtonText;
+            }
+            .demo-section {
+                background-color: Canvas;
+                border-color: ButtonText;
+            }
+            .keyboard-shortcuts {
+                background-color: ButtonFace;
+                color: ButtonText;
+                border: 2px solid ButtonText;
+            }
+            .key {
+                background-color: Highlight;
+                color: HighlightText;
+            }
+            .instructions {
+                background-color: Canvas;
+                border-color: ButtonText;
+            }
+            .warning {
+                background-color: Canvas;
+                border-color: ButtonText;
+            }
+        }
+        
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #111827;
+                color: #f9fafb;
+            }
+            .container {
+                background-color: #1f2937;
+                color: #f9fafb;
+            }
+            .title {
+                color: #f9fafb;
+            }
+            .demo-title {
+                color: #f9fafb;
+            }
+            .description {
+                color: #d1d5db;
+            }
+            .demo-section {
+                background-color: #374151;
+                border-color: #4b5563;
+            }
+            .feature-list li {
+                border-color: #4b5563;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Accessibility Features Demo</h1>
+            <p class="description">
+                This demo showcases the comprehensive accessibility features implemented in the 
+                Multi-Channel Content Manager, including responsive design, keyboard navigation, 
+                screen reader support, and high contrast mode compatibility.
+            </p>
+        </header>
+
+        <main>
+            <section class="demo-section">
+                <h2 class="demo-title">🎯 Implemented Accessibility Features</h2>
+                <ul class="feature-list">
+                    <li><strong>Keyboard Navigation:</strong> Full keyboard support for all interactive elements</li>
+                    <li><strong>Screen Reader Support:</strong> ARIA labels, roles, and live regions</li>
+                    <li><strong>Focus Management:</strong> Visible focus indicators and focus trapping</li>
+                    <li><strong>High Contrast Mode:</strong> Automatic adaptation to system preferences</li>
+                    <li><strong>Touch-Friendly Design:</strong> 44px minimum touch targets</li>
+                    <li><strong>Responsive Layout:</strong> Mobile-first design with flexible grids</li>
+                    <li><strong>Drag & Drop Accessibility:</strong> Keyboard-accessible drag operations</li>
+                    <li><strong>Reduced Motion Support:</strong> Respects user motion preferences</li>
+                    <li><strong>Color Blind Friendly:</strong> Patterns and text labels for status indicators</li>
+                    <li><strong>Skip Links:</strong> Quick navigation for keyboard users</li>
+                </ul>
+            </section>
+
+            <section class="demo-section">
+                <h2 class="demo-title">⌨️ Keyboard Shortcuts</h2>
+                <div class="keyboard-shortcuts">
+                    <h4>Calendar Navigation</h4>
+                    <div class="shortcut">
+                        <span>Navigate grid cells</span>
+                        <span class="key">Arrow Keys</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>Select cell/task</span>
+                        <span class="key">Enter / Space</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>First time slot</span>
+                        <span class="key">Home</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>Last time slot</span>
+                        <span class="key">End</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>Cancel operation</span>
+                        <span class="key">Escape</span>
+                    </div>
+                </div>
+
+                <div class="keyboard-shortcuts">
+                    <h4>Modal Navigation</h4>
+                    <div class="shortcut">
+                        <span>Navigate elements</span>
+                        <span class="key">Tab / Shift+Tab</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>Close modal</span>
+                        <span class="key">Escape</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>Activate button</span>
+                        <span class="key">Enter / Space</span>
+                    </div>
+                </div>
+
+                <div class="keyboard-shortcuts">
+                    <h4>Drag & Drop</h4>
+                    <div class="shortcut">
+                        <span>Start drag</span>
+                        <span class="key">Enter / Space on task</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>Navigate to drop zone</span>
+                        <span class="key">Arrow Keys</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>Drop task</span>
+                        <span class="key">Enter / Space on target</span>
+                    </div>
+                    <div class="shortcut">
+                        <span>Cancel drag</span>
+                        <span class="key">Escape</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="demo-section">
+                <h2 class="demo-title">📱 Responsive Design Features</h2>
+                <ul class="feature-list">
+                    <li><strong>Mobile-First Approach:</strong> Optimized for small screens first</li>
+                    <li><strong>Flexible Grid System:</strong> CSS Grid and Flexbox layouts</li>
+                    <li><strong>Touch-Friendly Controls:</strong> Minimum 44px touch targets</li>
+                    <li><strong>Responsive Typography:</strong> Scalable text sizes</li>
+                    <li><strong>Adaptive Calendar:</strong> Horizontal scrolling on mobile</li>
+                    <li><strong>Collapsible Navigation:</strong> Space-efficient mobile menus</li>
+                    <li><strong>Gesture Support:</strong> Touch and swipe interactions</li>
+                    <li><strong>Viewport Optimization:</strong> Proper meta viewport settings</li>
+                </ul>
+            </section>
+
+            <section class="demo-section">
+                <h2 class="demo-title">🔧 Technical Implementation</h2>
+                <ul class="feature-list">
+                    <li><strong>CSS Modules:</strong> Scoped styling with responsive utilities</li>
+                    <li><strong>Custom Hooks:</strong> Reusable accessibility logic</li>
+                    <li><strong>ARIA Patterns:</strong> Proper semantic markup</li>
+                    <li><strong>Focus Management:</strong> Programmatic focus control</li>
+                    <li><strong>Live Regions:</strong> Dynamic content announcements</li>
+                    <li><strong>Media Queries:</strong> Responsive breakpoints</li>
+                    <li><strong>CSS Custom Properties:</strong> Consistent design tokens</li>
+                    <li><strong>Progressive Enhancement:</strong> Works without JavaScript</li>
+                </ul>
+            </section>
+
+            <div class="instructions">
+                <h4>🧪 Testing Instructions</h4>
+                <p><strong>To test accessibility features:</strong></p>
+                <ol>
+                    <li>Try navigating with only the keyboard (Tab, Arrow keys, Enter, Space, Escape)</li>
+                    <li>Test with a screen reader (NVDA, JAWS, VoiceOver, or TalkBack)</li>
+                    <li>Enable high contrast mode in your system settings</li>
+                    <li>Test on different screen sizes and orientations</li>
+                    <li>Try with reduced motion preferences enabled</li>
+                    <li>Test touch interactions on mobile devices</li>
+                </ol>
+            </div>
+
+            <div class="warning">
+                <h4>⚠️ Browser Compatibility</h4>
+                <p>
+                    These accessibility features are designed to work across modern browsers.
+                    Some features may require polyfills for older browsers. 
+                    The responsive design uses CSS Grid and Flexbox, which are well-supported 
+                    in current browser versions.
+                </p>
+            </div>
+
+            <div class="react-root" id="accessibility-demo-root">
+                <p>
+                    <strong>React Component Demo</strong><br>
+                    The interactive accessibility demo would be rendered here in a React application.
+                    This includes the accessible calendar grid, draggable tasks, modal dialogs,
+                    and all keyboard navigation features.
+                </p>
+                <p>
+                    <em>To see the full demo, integrate the AccessibilityDemo component into your React app.</em>
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Simple demo of screen reader announcements
+        function announceToScreenReader(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.style.position = 'absolute';
+            announcement.style.left = '-10000px';
+            announcement.style.width = '1px';
+            announcement.style.height = '1px';
+            announcement.style.overflow = 'hidden';
+            
+            document.body.appendChild(announcement);
+            
+            setTimeout(() => {
+                announcement.textContent = message;
+                setTimeout(() => {
+                    document.body.removeChild(announcement);
+                }, 1000);
+            }, 100);
+        }
+
+        // Demo keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'F1') {
+                event.preventDefault();
+                announceToScreenReader('Accessibility demo loaded. Use Tab to navigate, F1 for help.');
+            }
+        });
+
+        // Announce page load
+        window.addEventListener('load', function() {
+            announceToScreenReader('Accessibility features demo page loaded. Press F1 for keyboard shortcuts.');
+        });
+
+        // High contrast detection
+        if (window.matchMedia && window.matchMedia('(prefers-contrast: high)').matches) {
+            console.log('High contrast mode detected');
+            announceToScreenReader('High contrast mode is active.');
+        }
+
+        // Reduced motion detection
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            console.log('Reduced motion preference detected');
+            document.body.style.setProperty('--animation-duration', '0.01ms');
+        }
+
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            console.log('Dark mode detected');
+        }
+    </script>
+</body>
+</html>

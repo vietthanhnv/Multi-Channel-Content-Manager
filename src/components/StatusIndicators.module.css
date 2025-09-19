@@ -1,0 +1,259 @@
+.indicatorsContainer {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.indicatorsGrid {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.horizontal .indicatorsGrid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.vertical .indicatorsGrid {
+  grid-template-columns: 1fr;
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.indicator:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.indicator.excellent {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.indicator.good {
+  background-color: #cce5ff;
+  border-color: #b3d7ff;
+}
+
+.indicator.warning {
+  background-color: #fff3cd;
+  border-color: #ffeaa7;
+}
+
+.indicator.critical {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.indicator.neutral {
+  background-color: #f8f9fa;
+  border-color: #e9ecef;
+}
+
+.indicatorIcon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.indicatorContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.indicatorValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.indicatorTotal {
+  font-size: 16px;
+  font-weight: 400;
+  color: #6c757d;
+}
+
+.indicatorLabel {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.indicatorSubtitle {
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 2px;
+}
+
+.statusDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.statusDot.excellent {
+  background-color: #28a745;
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3);
+}
+
+.statusDot.good {
+  background-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.3);
+}
+
+.statusDot.warning {
+  background-color: #ffc107;
+  box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3);
+}
+
+.statusDot.critical {
+  background-color: #dc3545;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.3);
+  animation: pulse 2s infinite;
+}
+
+.statusDot.neutral {
+  background-color: #6c757d;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(220, 53, 69, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.3);
+  }
+}
+
+.summary {
+  padding-top: 16px;
+  border-top: 1px solid #e9ecef;
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summaryLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.summaryValue {
+  font-size: 16px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summaryValue.excellent {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.summaryValue.good {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.summaryValue.warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.summaryValue.critical {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .indicatorsContainer {
+    padding: 16px;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .horizontal .indicatorsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .indicator {
+    padding: 12px;
+  }
+  
+  .indicatorIcon {
+    font-size: 20px;
+  }
+  
+  .indicatorValue {
+    font-size: 18px;
+  }
+  
+  .summaryItem {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .indicator {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  
+  .statusDot {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+}

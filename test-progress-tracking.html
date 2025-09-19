@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Tracking & Analytics Demo</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f8f9fa;
+        }
+        
+        #root {
+            min-height: 100vh;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="loading">Loading Progress Tracking Demo...</div>
+    </div>
+    
+    <script type="module">
+        import React from 'https://esm.sh/react@18.2.0';
+        import ReactDOM from 'https://esm.sh/react-dom@18.2.0/client';
+        import { AppProviderWithPersistence } from './src/context/AppProviderWithPersistence.tsx';
+        import { ProgressTrackingDemo } from './src/components/ProgressTrackingDemo.tsx';
+        
+        // Sample data for demonstration
+        const sampleChannels = [
+            {
+                id: 'channel-1',
+                name: 'Gaming Central',
+                contentType: 'gaming',
+                postingSchedule: {
+                    frequency: 'weekly',
+                    preferredDays: ['Monday', 'Wednesday', 'Friday'],
+                    preferredTimes: ['18:00'],
+                },
+                color: '#ff6b6b',
+                createdAt: new Date('2024-01-01'),
+                isActive: true,
+            },
+            {
+                id: 'channel-2',
+                name: 'Tech Reviews',
+                contentType: 'educational',
+                postingSchedule: {
+                    frequency: 'biweekly',
+                    preferredDays: ['Tuesday', 'Thursday'],
+                    preferredTimes: ['14:00'],
+                },
+                color: '#4ecdc4',
+                createdAt: new Date('2024-01-02'),
+                isActive: true,
+            },
+            {
+                id: 'channel-3',
+                name: 'Lifestyle Vlogs',
+                contentType: 'lifestyle',
+                postingSchedule: {
+                    frequency: 'weekly',
+                    preferredDays: ['Sunday'],
+                    preferredTimes: ['12:00'],
+                },
+                color: '#45b7d1',
+                createdAt: new Date('2024-01-03'),
+                isActive: true,
+            },
+        ];
+        
+        const sampleTasks = [
+            {
+                id: 'task-1',
+                channelId: 'channel-1',
+                title: 'Gaming Highlights Video',
+                contentType: 'video',
+                estimatedHours: 8,
+                status: 'completed',
+                scheduledStart: new Date('2024-01-01T09:00:00'),
+                scheduledEnd: new Date('2024-01-01T17:00:00'),
+                actualHours: 9,
+            },
+            {
+                id: 'task-2',
+                channelId: 'channel-1',
+                title: 'Gaming Short #1',
+                contentType: 'short',
+                estimatedHours: 2,
+                status: 'completed',
+                scheduledStart: new Date('2024-01-02T10:00:00'),
+                scheduledEnd: new Date('2024-01-02T12:00:00'),
+                actualHours: 1.5,
+            },
+            {
+                id: 'task-3',
+                channelId: 'channel-1',
+                title: 'Gaming Tutorial',
+                contentType: 'video',
+                estimatedHours: 6,
+                status: 'in-progress',
+                scheduledStart: new Date('2024-01-03T09:00:00'),
+                scheduledEnd: new Date('2024-01-03T15:00:00'),
+            },
+            {
+                id: 'task-4',
+                channelId: 'channel-2',
+                title: 'Tech Product Review',
+                contentType: 'video',
+                estimatedHours: 10,
+                status: 'completed',
+                scheduledStart: new Date('2024-01-01T08:00:00'),
+                scheduledEnd: new Date('2024-01-01T18:00:00'),
+                actualHours: 12,
+            },
+            {
+                id: 'task-5',
+                channelId: 'channel-2',
+                title: 'Quick Tech Tips',
+                contentType: 'short',
+                estimatedHours: 3,
+                status: 'planned',
+                scheduledStart: new Date('2024-01-04T14:00:00'),
+                scheduledEnd: new Date('2024-01-04T17:00:00'),
+            },
+            {
+                id: 'task-6',
+                channelId: 'channel-3',
+                title: 'Morning Routine Vlog',
+                contentType: 'video',
+                estimatedHours: 5,
+                status: 'overdue',
+                scheduledStart: new Date('2023-12-30T08:00:00'),
+                scheduledEnd: new Date('2023-12-30T13:00:00'),
+            },
+            {
+                id: 'task-7',
+                channelId: 'channel-3',
+                title: 'Lifestyle Tips Post',
+                contentType: 'post',
+                estimatedHours: 1,
+                status: 'completed',
+                scheduledStart: new Date('2024-01-02T16:00:00'),
+                scheduledEnd: new Date('2024-01-02T17:00:00'),
+                actualHours: 0.5,
+            },
+        ];
+        
+        const initialState = {
+            channels: sampleChannels,
+            templates: [],
+            currentWeek: {
+                weekStartDate: new Date('2024-01-01'),
+                tasks: sampleTasks,
+                totalScheduledHours: sampleTasks.reduce((sum, task) => sum + task.estimatedHours, 0),
+                userCapacityHours: 40,
+                isOverloaded: sampleTasks.reduce((sum, task) => sum + task.estimatedHours, 0) > 40,
+            },
+            selectedChannelId: undefined,
+            userSettings: {
+                weeklyCapacityHours: 40,
+                workingDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                workingHours: { start: '09:00', end: '17:00' },
+            },
+            ui: {
+                activeView: 'analytics',
+                isLoading: false,
+                errors: [],
+            },
+        };
+        
+        function App() {
+            return React.createElement(
+                AppProviderWithPersistence,
+                { initialState },
+                React.createElement(ProgressTrackingDemo)
+            );
+        }
+        
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(App));
+    </script>
+</body>
+</html>

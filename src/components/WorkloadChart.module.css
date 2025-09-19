@@ -1,0 +1,253 @@
+.chartContainer {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.statusBadge {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statusBadge.healthy {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.statusBadge.warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.statusBadge.critical {
+  background-color: #ffeaa7;
+  color: #d63031;
+}
+
+.statusBadge.overloaded {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.chartArea {
+  margin-bottom: 20px;
+}
+
+.barContainer {
+  position: relative;
+  height: 40px;
+  background-color: #f8f9fa;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.scheduledFill {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #45a049);
+  border-radius: 20px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.scheduledFill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: shimmer 3s infinite;
+}
+
+.overloadFill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+  position: absolute;
+  top: 0;
+  left: 100%;
+  border-radius: 0 20px 20px 0;
+  transition: width 0.5s ease;
+}
+
+.capacityLine {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background-color: #333;
+  opacity: 0.7;
+}
+
+.capacityLine::before {
+  content: 'Capacity';
+  position: absolute;
+  top: -20px;
+  right: -25px;
+  font-size: 10px;
+  color: #666;
+  white-space: nowrap;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.metrics {
+  display: flex;
+  justify-content: space-around;
+  gap: 16px;
+}
+
+.metricGroup {
+  text-align: center;
+  flex: 1;
+}
+
+.metricGroup.overload {
+  color: #dc3545;
+}
+
+.metricValue {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.metricLabel {
+  font-size: 12px;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e9ecef;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+.legendColor {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.legendColor.scheduled {
+  background: linear-gradient(90deg, #4CAF50, #45a049);
+}
+
+.legendColor.capacity {
+  background-color: #f8f9fa;
+  border: 2px solid #333;
+}
+
+.legendColor.overloadLegend {
+  background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+}
+
+.additionalMetrics {
+  padding-top: 16px;
+  border-top: 1px solid #e9ecef;
+}
+
+.accuracyMetric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.accuracyLabel {
+  font-size: 14px;
+  color: #666;
+}
+
+.accuracyValue {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.timeComparison {
+  text-align: center;
+}
+
+.comparisonText {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .chartContainer {
+    padding: 16px;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .metrics {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .legend {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .accuracyMetric {
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+}

@@ -1,0 +1,595 @@
+/* Accessibility Styles and Utilities */
+
+/* Focus Management */
+.focusVisible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.focusWithin:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.skipLink {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #3b82f6;
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 9999;
+  font-weight: 600;
+  transition: top 0.3s ease;
+}
+
+.skipLink:focus {
+  top: 6px;
+}
+
+/* Screen Reader Only Content */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.srOnlyFocusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .highContrastSupport {
+    border: 2px solid;
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+  
+  .highContrastButton {
+    border: 2px solid ButtonText;
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+  
+  .highContrastButton:hover {
+    background-color: Highlight;
+    color: HighlightText;
+  }
+  
+  .highContrastButton:focus {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+  
+  .highContrastInput {
+    border: 2px solid ButtonText;
+    background-color: Field;
+    color: FieldText;
+  }
+  
+  .highContrastInput:focus {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .respectMotionPreference {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .respectMotionPreference * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Keyboard Navigation Styles */
+.keyboardNavigable {
+  position: relative;
+}
+
+.keyboardNavigable:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  z-index: 10;
+}
+
+.keyboardNavigable[data-keyboard-focused="true"] {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  z-index: 10;
+}
+
+/* Focus Trap */
+.focusTrap {
+  position: relative;
+}
+
+.focusTrap::before,
+.focusTrap::after {
+  content: '';
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Drag and Drop Accessibility */
+.accessibleDragHandle {
+  cursor: grab;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.accessibleDragHandle:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.accessibleDragHandle:active {
+  cursor: grabbing;
+}
+
+.accessibleDragHandle[aria-grabbed="true"] {
+  background-color: rgba(59, 130, 246, 0.2);
+  border: 2px dashed #3b82f6;
+}
+
+.accessibleDropZone {
+  border: 2px dashed transparent;
+  border-radius: 4px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.accessibleDropZone:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.accessibleDropZone[aria-dropeffect="move"] {
+  border-color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.accessibleDropZone[aria-dropeffect="none"] {
+  border-color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+/* Calendar Accessibility */
+.accessibleCalendarGrid {
+  role: grid;
+}
+
+.accessibleCalendarRow {
+  role: row;
+}
+
+.accessibleCalendarCell {
+  role: gridcell;
+  position: relative;
+}
+
+.accessibleCalendarCell:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+  z-index: 10;
+}
+
+.accessibleCalendarCell[aria-selected="true"] {
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 2px solid #3b82f6;
+}
+
+.accessibleTimeSlot {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.accessibleTimeSlot:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.accessibleTimeSlot:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.accessibleTimeSlot[aria-busy="true"] {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+}
+
+/* Form Accessibility */
+.accessibleFormGroup {
+  margin-bottom: 1rem;
+}
+
+.accessibleLabel {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #374151;
+}
+
+.accessibleLabel.required::after {
+  content: ' *';
+  color: #ef4444;
+}
+
+.accessibleInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.accessibleInput:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.accessibleInput[aria-invalid="true"] {
+  border-color: #ef4444;
+}
+
+.accessibleInput[aria-invalid="true"]:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.accessibleErrorMessage {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.accessibleErrorMessage::before {
+  content: '⚠';
+  font-size: 1rem;
+}
+
+.accessibleHelpText {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Button Accessibility */
+.accessibleButton {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.accessibleButton:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.accessibleButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.accessibleButton[aria-pressed="true"] {
+  background-color: #1d4ed8;
+  color: white;
+}
+
+/* Modal Accessibility */
+.accessibleModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.accessibleModalContent {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.accessibleModalContent:focus {
+  outline: none;
+}
+
+.accessibleModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.accessibleModalTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.accessibleModalCloseButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+
+.accessibleModalCloseButton:hover {
+  color: #374151;
+}
+
+.accessibleModalCloseButton:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Navigation Accessibility */
+.accessibleNavigation {
+  role: navigation;
+}
+
+.accessibleNavList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 1rem;
+}
+
+.accessibleNavItem {
+  position: relative;
+}
+
+.accessibleNavLink {
+  display: block;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: #374151;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.accessibleNavLink:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.accessibleNavLink:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.accessibleNavLink[aria-current="page"] {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* Status and Progress Accessibility */
+.accessibleStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.accessibleStatus[aria-label*="success"] {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.accessibleStatus[aria-label*="warning"] {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.accessibleStatus[aria-label*="error"] {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.accessibleProgressBar {
+  width: 100%;
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.accessibleProgressBar:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.accessibleProgressFill {
+  height: 100%;
+  background-color: #3b82f6;
+  transition: width 0.3s ease;
+}
+
+/* Live Region for Screen Readers */
+.liveRegion {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Color Blind Friendly Patterns */
+.colorBlindPattern {
+  position: relative;
+}
+
+.colorBlindPattern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.colorBlindPattern.success::before {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 2px,
+    currentColor 2px,
+    currentColor 4px
+  );
+}
+
+.colorBlindPattern.warning::before {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 2px,
+    currentColor 2px,
+    currentColor 4px
+  );
+}
+
+.colorBlindPattern.error::before {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    currentColor 2px,
+    currentColor 4px
+  );
+}
+
+/* Touch Target Size for Accessibility */
+.accessibleTouchTarget {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.accessibleTouchTarget:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.accessibleTouchTarget:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Dark Mode Accessibility */
+@media (prefers-color-scheme: dark) {
+  .focusVisible {
+    outline-color: #60a5fa;
+  }
+  
+  .focusWithin:focus-within {
+    outline-color: #60a5fa;
+  }
+  
+  .keyboardNavigable:focus {
+    outline-color: #60a5fa;
+  }
+  
+  .accessibleInput:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+  }
+  
+  .accessibleButton:focus {
+    outline-color: #60a5fa;
+  }
+  
+  .accessibleNavLink:focus {
+    outline-color: #60a5fa;
+  }
+  
+  .accessibleProgressBar:focus {
+    outline-color: #60a5fa;
+  }
+  
+  .accessibleTouchTarget:focus {
+    outline-color: #60a5fa;
+  }
+}

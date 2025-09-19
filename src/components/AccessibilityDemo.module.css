@@ -1,0 +1,368 @@
+.accessibilityDemo {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 1rem 0;
+}
+
+.description {
+  font-size: 1.125rem;
+  color: #6b7280;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 1rem 0;
+}
+
+.instructions {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+}
+
+/* Controls Section */
+.controls {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.helpText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Task Section */
+.taskSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+}
+
+.taskItem {
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.taskItem:hover {
+  transform: translateY(-1px);
+}
+
+/* Calendar Section */
+.calendarSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.calendarContainer {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Status Section */
+.statusSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.statusCard {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+}
+
+.statusCard:hover {
+  transform: translateY(-1px);
+}
+
+.statusIcon {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Progress Section */
+.progressSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.progressContainer {
+  max-width: 400px;
+}
+
+.progressText {
+  margin-top: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* Form Section */
+.formSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.demoForm {
+  max-width: 400px;
+}
+
+/* Modal Actions */
+.modalActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: flex-end;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .accessibilityDemo {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .controls,
+  .taskSection,
+  .calendarSection,
+  .statusSection,
+  .progressSection,
+  .formSection {
+    padding: 1.5rem;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+  }
+
+  .statusGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+
+  .calendarContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 480px) {
+  .accessibilityDemo {
+    padding: 0.5rem;
+  }
+
+  .controls,
+  .taskSection,
+  .calendarSection,
+  .statusSection,
+  .progressSection,
+  .formSection {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.25rem;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .accessibilityDemo {
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  .controls,
+  .taskSection,
+  .calendarSection,
+  .statusSection,
+  .progressSection,
+  .formSection {
+    background-color: Canvas;
+    color: CanvasText;
+    border: 2px solid ButtonText;
+  }
+
+  .title,
+  .sectionTitle {
+    color: CanvasText;
+  }
+
+  .description,
+  .instructions,
+  .progressText {
+    color: CanvasText;
+  }
+
+  .instructions {
+    background-color: Canvas;
+    border-color: ButtonText;
+  }
+
+  .statusCard {
+    border: 2px solid ButtonText;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .accessibilityDemo {
+    background-color: #111827;
+    color: #f9fafb;
+  }
+
+  .title,
+  .sectionTitle {
+    color: #f9fafb;
+  }
+
+  .description {
+    color: #d1d5db;
+  }
+
+  .controls,
+  .taskSection,
+  .calendarSection,
+  .statusSection,
+  .progressSection,
+  .formSection {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+
+  .instructions {
+    background-color: #374151;
+    color: #d1d5db;
+    border-color: #60a5fa;
+  }
+
+  .progressText {
+    color: #d1d5db;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .taskItem,
+  .statusCard {
+    transition: none;
+  }
+
+  .taskItem:hover,
+  .statusCard:hover {
+    transform: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .accessibilityDemo {
+    background: white;
+    color: black;
+    box-shadow: none;
+  }
+
+  .controls,
+  .taskSection,
+  .calendarSection,
+  .statusSection,
+  .progressSection,
+  .formSection {
+    background: white;
+    color: black;
+    border: 1px solid black;
+    box-shadow: none;
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+
+  .buttonGroup {
+    display: none;
+  }
+
+  .modalActions {
+    display: none;
+  }
+}

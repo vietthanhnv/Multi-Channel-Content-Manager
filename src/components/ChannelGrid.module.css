@@ -1,0 +1,211 @@
+.channelGridContainer {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.channelGridHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.gridTitleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gridTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.channelCount {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.addChannelBtn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.addChannelBtn.primary {
+  background-color: #3b82f6;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+}
+
+.addChannelBtn.primary:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.addChannelBtn.secondary {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.addChannelBtn.secondary:hover {
+  background-color: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+.channelGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 64px 32px;
+  background: #f9fafb;
+  border-radius: 16px;
+  border: 2px dashed #d1d5db;
+}
+
+.emptyStateIcon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.emptyStateTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.emptyStateDescription {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0 0 24px 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gridStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 24px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.statCard {
+  text-align: center;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.statNumber {
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .channelGridContainer {
+    padding: 16px;
+  }
+  
+  .channelGridHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  
+  .gridTitleSection {
+    text-align: center;
+  }
+  
+  .gridTitle {
+    font-size: 24px;
+  }
+  
+  .channelGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .gridStats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+  
+  .statNumber {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .channelGridContainer {
+    padding: 12px;
+  }
+  
+  .emptyState {
+    padding: 32px 16px;
+  }
+  
+  .emptyStateIcon {
+    font-size: 48px;
+  }
+  
+  .emptyStateTitle {
+    font-size: 20px;
+  }
+  
+  .emptyStateDescription {
+    font-size: 14px;
+  }
+  
+  .gridStats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animation for new channels */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.channelGrid > * {
+  animation: slideInUp 0.3s ease-out;
+}

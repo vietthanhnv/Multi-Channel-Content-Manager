@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Application Demo - Multi-Channel Content Manager</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        #root {
+            min-height: 100vh;
+        }
+        
+        .demo-info {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 1rem;
+            margin: 1rem;
+            border-radius: 4px;
+        }
+        
+        .demo-info h3 {
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .demo-info ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-info">
+        <h3>Template Application Demo Features:</h3>
+        <ul>
+            <li>Browse and manage content templates</li>
+            <li>Create new templates with time estimates and workflow steps</li>
+            <li>Select templates when creating content</li>
+            <li>Auto-populate forms with template data</li>
+            <li>Modify template data without affecting the original template</li>
+        </ul>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script type="module">
+        import { createRoot } from 'react-dom/client';
+        import { TemplateApplicationDemo } from '/src/components/TemplateApplicationDemo.tsx';
+        
+        const container = document.getElementById('root');
+        const root = createRoot(container);
+        root.render(React.createElement(TemplateApplicationDemo));
+    </script>
+</body>
+</html>

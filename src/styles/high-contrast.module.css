@@ -1,0 +1,449 @@
+/* High Contrast Mode Support */
+
+/* Base high contrast styles */
+@media (prefers-contrast: high) {
+  :root {
+    --hc-background: Canvas;
+    --hc-text: CanvasText;
+    --hc-button-face: ButtonFace;
+    --hc-button-text: ButtonText;
+    --hc-highlight: Highlight;
+    --hc-highlight-text: HighlightText;
+    --hc-link: LinkText;
+    --hc-visited-link: VisitedText;
+    --hc-active-text: ActiveText;
+    --hc-gray-text: GrayText;
+    --hc-border: ButtonText;
+  }
+
+  /* Global high contrast adjustments */
+  * {
+    background-color: var(--hc-background) !important;
+    color: var(--hc-text) !important;
+    border-color: var(--hc-border) !important;
+  }
+
+  /* Buttons */
+  button,
+  .button,
+  [role="button"] {
+    background-color: var(--hc-button-face) !important;
+    color: var(--hc-button-text) !important;
+    border: 2px solid var(--hc-button-text) !important;
+  }
+
+  button:hover,
+  .button:hover,
+  [role="button"]:hover {
+    background-color: var(--hc-highlight) !important;
+    color: var(--hc-highlight-text) !important;
+    border-color: var(--hc-highlight-text) !important;
+  }
+
+  button:focus,
+  .button:focus,
+  [role="button"]:focus {
+    outline: 3px solid var(--hc-highlight) !important;
+    outline-offset: 2px !important;
+  }
+
+  button:disabled,
+  .button:disabled,
+  [role="button"][aria-disabled="true"] {
+    background-color: var(--hc-background) !important;
+    color: var(--hc-gray-text) !important;
+    border-color: var(--hc-gray-text) !important;
+  }
+
+  /* Links */
+  a,
+  [role="link"] {
+    color: var(--hc-link) !important;
+    text-decoration: underline !important;
+  }
+
+  a:visited {
+    color: var(--hc-visited-link) !important;
+  }
+
+  a:hover,
+  a:focus,
+  [role="link"]:hover,
+  [role="link"]:focus {
+    color: var(--hc-active-text) !important;
+    background-color: var(--hc-highlight) !important;
+    outline: 2px solid var(--hc-highlight) !important;
+  }
+
+  /* Form elements */
+  input,
+  select,
+  textarea {
+    background-color: var(--hc-background) !important;
+    color: var(--hc-text) !important;
+    border: 2px solid var(--hc-button-text) !important;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: 3px solid var(--hc-highlight) !important;
+    outline-offset: 2px !important;
+    border-color: var(--hc-highlight) !important;
+  }
+
+  input:disabled,
+  select:disabled,
+  textarea:disabled {
+    background-color: var(--hc-background) !important;
+    color: var(--hc-gray-text) !important;
+    border-color: var(--hc-gray-text) !important;
+  }
+
+  /* Checkboxes and radio buttons */
+  input[type="checkbox"],
+  input[type="radio"] {
+    accent-color: var(--hc-highlight) !important;
+  }
+
+  /* Focus indicators */
+  *:focus {
+    outline: 3px solid var(--hc-highlight) !important;
+    outline-offset: 2px !important;
+  }
+
+  /* Remove box shadows and gradients */
+  * {
+    box-shadow: none !important;
+    background-image: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Calendar specific high contrast */
+  .calendarGrid {
+    border: 3px solid var(--hc-border) !important;
+  }
+
+  .dayHeader {
+    background-color: var(--hc-button-face) !important;
+    color: var(--hc-button-text) !important;
+    border: 2px solid var(--hc-border) !important;
+  }
+
+  .timeSlot {
+    border: 1px solid var(--hc-border) !important;
+  }
+
+  .timeSlot:focus {
+    background-color: var(--hc-highlight) !important;
+    color: var(--hc-highlight-text) !important;
+    outline: 3px solid var(--hc-highlight) !important;
+  }
+
+  .taskPreview {
+    background-color: var(--hc-button-face) !important;
+    color: var(--hc-button-text) !important;
+    border: 2px solid var(--hc-border) !important;
+  }
+
+  .taskPreview:focus {
+    background-color: var(--hc-highlight) !important;
+    color: var(--hc-highlight-text) !important;
+    outline: 3px solid var(--hc-highlight) !important;
+  }
+
+  /* Channel cards */
+  .channelCard {
+    background-color: var(--hc-background) !important;
+    color: var(--hc-text) !important;
+    border: 3px solid var(--hc-border) !important;
+  }
+
+  .channelCard:focus {
+    outline: 3px solid var(--hc-highlight) !important;
+    outline-offset: 2px !important;
+  }
+
+  /* Modal high contrast */
+  .modalOverlay {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+  }
+
+  .modalContent {
+    background-color: var(--hc-background) !important;
+    color: var(--hc-text) !important;
+    border: 3px solid var(--hc-border) !important;
+  }
+
+  /* Status indicators with patterns for color blind users */
+  .statusSuccess {
+    background-color: var(--hc-background) !important;
+    color: var(--hc-text) !important;
+    border: 2px solid var(--hc-border) !important;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      var(--hc-border) 2px,
+      var(--hc-border) 4px
+    ) !important;
+  }
+
+  .statusWarning {
+    background-color: var(--hc-background) !important;
+    color: var(--hc-text) !important;
+    border: 2px solid var(--hc-border) !important;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 2px,
+      var(--hc-border) 2px,
+      var(--hc-border) 4px
+    ) !important;
+  }
+
+  .statusError {
+    background-color: var(--hc-background) !important;
+    color: var(--hc-text) !important;
+    border: 2px solid var(--hc-border) !important;
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      var(--hc-border) 2px,
+      var(--hc-border) 4px
+    ) !important;
+  }
+
+  /* Progress bars */
+  .progressBar {
+    background-color: var(--hc-background) !important;
+    border: 2px solid var(--hc-border) !important;
+  }
+
+  .progressFill {
+    background-color: var(--hc-highlight) !important;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      var(--hc-highlight-text) 2px,
+      var(--hc-highlight-text) 4px
+    ) !important;
+  }
+
+  /* Drag and drop indicators */
+  .dragHandle {
+    background-color: var(--hc-button-face) !important;
+    color: var(--hc-button-text) !important;
+    border: 2px solid var(--hc-border) !important;
+  }
+
+  .dropZone {
+    border: 3px dashed var(--hc-border) !important;
+    background-color: var(--hc-background) !important;
+  }
+
+  .dropZone[aria-dropeffect="move"] {
+    background-color: var(--hc-highlight) !important;
+    color: var(--hc-highlight-text) !important;
+    border-color: var(--hc-highlight-text) !important;
+  }
+
+  /* Navigation */
+  .navigation {
+    background-color: var(--hc-background) !important;
+    border: 2px solid var(--hc-border) !important;
+  }
+
+  .navLink {
+    color: var(--hc-link) !important;
+    text-decoration: underline !important;
+  }
+
+  .navLink:hover,
+  .navLink:focus {
+    background-color: var(--hc-highlight) !important;
+    color: var(--hc-highlight-text) !important;
+  }
+
+  .navLink[aria-current="page"] {
+    background-color: var(--hc-button-face) !important;
+    color: var(--hc-button-text) !important;
+    border: 2px solid var(--hc-border) !important;
+  }
+
+  /* Tables and grids */
+  table,
+  [role="grid"] {
+    border: 2px solid var(--hc-border) !important;
+  }
+
+  th,
+  td,
+  [role="columnheader"],
+  [role="rowheader"],
+  [role="gridcell"] {
+    border: 1px solid var(--hc-border) !important;
+    background-color: var(--hc-background) !important;
+    color: var(--hc-text) !important;
+  }
+
+  th,
+  [role="columnheader"],
+  [role="rowheader"] {
+    background-color: var(--hc-button-face) !important;
+    color: var(--hc-button-text) !important;
+    font-weight: bold !important;
+  }
+
+  /* Selected states */
+  [aria-selected="true"] {
+    background-color: var(--hc-highlight) !important;
+    color: var(--hc-highlight-text) !important;
+    border: 2px solid var(--hc-highlight-text) !important;
+  }
+
+  /* Expanded states */
+  [aria-expanded="true"] {
+    background-color: var(--hc-button-face) !important;
+    color: var(--hc-button-text) !important;
+  }
+
+  /* Pressed states */
+  [aria-pressed="true"] {
+    background-color: var(--hc-highlight) !important;
+    color: var(--hc-highlight-text) !important;
+    border: 2px solid var(--hc-highlight-text) !important;
+  }
+
+  /* Invalid states */
+  [aria-invalid="true"] {
+    border: 3px solid var(--hc-border) !important;
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      var(--hc-border) 2px,
+      var(--hc-border) 4px
+    ) !important;
+  }
+
+  /* Loading states */
+  [aria-busy="true"] {
+    background-image: repeating-linear-gradient(
+      45deg,
+      var(--hc-background),
+      var(--hc-background) 10px,
+      var(--hc-border) 10px,
+      var(--hc-border) 20px
+    ) !important;
+  }
+}
+
+/* Enhanced focus indicators for all users */
+.enhancedFocus {
+  position: relative;
+}
+
+.enhancedFocus:focus {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+  z-index: 10;
+}
+
+.enhancedFocus:focus::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid #3b82f6;
+  border-radius: 6px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Focus visible for keyboard navigation */
+.enhancedFocus:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.enhancedFocus:focus:not(:focus-visible)::before {
+  display: none;
+}
+
+.enhancedFocus:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.enhancedFocus:focus-visible::before {
+  display: block;
+}
+
+/* Skip links for keyboard navigation */
+.skipLinks {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  z-index: 9999;
+}
+
+.skipLink {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #3b82f6;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: top 0.3s ease;
+  z-index: 10000;
+}
+
+.skipLink:focus {
+  top: 6px;
+}
+
+@media (prefers-contrast: high) {
+  .skipLink {
+    background-color: var(--hc-highlight) !important;
+    color: var(--hc-highlight-text) !important;
+    border: 2px solid var(--hc-highlight-text) !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .respectMotion * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .skipLink {
+    transition: none;
+  }
+}
+
+/* Dark mode with high contrast */
+@media (prefers-color-scheme: dark) and (prefers-contrast: high) {
+  :root {
+    --hc-background: #000000;
+    --hc-text: #ffffff;
+    --hc-button-face: #1a1a1a;
+    --hc-button-text: #ffffff;
+    --hc-highlight: #ffffff;
+    --hc-highlight-text: #000000;
+    --hc-link: #66b3ff;
+    --hc-visited-link: #cc99ff;
+    --hc-active-text: #ffff66;
+    --hc-gray-text: #808080;
+    --hc-border: #ffffff;
+  }
+}
