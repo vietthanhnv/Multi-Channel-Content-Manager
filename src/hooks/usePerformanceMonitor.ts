@@ -39,34 +39,36 @@ export function usePerformanceMonitor(
     const renderStart = performance.now();
     renderCountRef.current += 1;
 
-    // Measure render time
-    const renderTime = performance.now() - renderStart;
-    const timeSinceLastRender = renderStart - lastRenderTimeRef.current;
-    lastRenderTimeRef.current = renderStart;
+    // Use requestAnimationFrame to measure after render is complete
+    requestAnimationFrame(() => {
+      const renderTime = performance.now() - renderStart;
+      const timeSinceLastRender = renderStart - lastRenderTimeRef.current;
+      lastRenderTimeRef.current = renderStart;
 
-    // Get memory usage if supported and requested
-    let memoryUsage: number | undefined;
-    if (trackMemory && 'memory' in performance) {
-      memoryUsage = (performance as any).memory.usedJSHeapSize / 1024 / 1024; // MB
-    }
+      // Get memory usage if supported and requested
+      let memoryUsage: number | undefined;
+      if (trackMemory && 'memory' in performance) {
+        memoryUsage = (performance as any).memory.usedJSHeapSize / 1024 / 1024; // MB
+      }
 
-    const newMetrics: PerformanceMetrics = {
-      renderTime,
-      memoryUsage,
-      componentRenderCount: renderCountRef.current,
-      lastRenderTime: timeSinceLastRender,
-    };
+      const newMetrics: PerformanceMetrics = {
+        renderTime,
+        memoryUsage,
+        componentRenderCount: renderCountRef.current,
+        lastRenderTime: timeSinceLastRender,
+      };
 
-    setMetrics(newMetrics);
+      setMetrics(newMetrics);
 
-    // Log performance issues
-    if (logToConsole && renderTime > threshold) {
-      console.warn(
-        `Performance warning: ${componentName} render took ${renderTime.toFixed(2)}ms`,
-        newMetrics
-      );
-    }
-  });
+      // Log performance issues
+      if (logToConsole && renderTime > threshold) {
+        console.warn(
+          `Performance warning: ${componentName} render took ${renderTime.toFixed(2)}ms`,
+          newMetrics
+        );
+      }
+    });
+  }, [componentName, trackMemory, logToConsole, threshold]);
 
   // Reset metrics
   const resetMetrics = useCallback(() => {

@@ -41,6 +41,8 @@ const initialFormData: FormData = {
 };
 
 export const AddChannelModal: React.FC<AddChannelModalProps> = ({ isOpen, onClose }) => {
+  console.log('AddChannelModal rendered with isOpen:', isOpen);
+  
   const { state, dispatch } = useAppContext();
   const { userSettings } = useUserSettings();
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -235,7 +237,12 @@ export const AddChannelModal: React.FC<AddChannelModalProps> = ({ isOpen, onClos
     }
   }, [isOpen, isSubmitting, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen) {
+    console.log('Modal not rendering because isOpen is false');
+    return null;
+  }
+  
+  console.log('Modal is rendering because isOpen is true');
 
   return (
     <div className={styles.modalOverlay} onClick={handleClose}>

@@ -26,6 +26,9 @@ export const ChannelGrid: React.FC<ChannelGridProps> = React.memo(({
   const channels = propChannels || state.channels;
   const tasks = propTasks || state.currentWeek.tasks;
 
+  // Debug logging
+  console.log('ChannelGrid render - isAddModalOpen:', isAddModalOpen);
+
   // Memoized handlers to prevent unnecessary re-renders
   const handleEditChannel = useCallback((channel: Channel) => {
     setSelectedChannel(channel);
@@ -78,80 +81,95 @@ export const ChannelGrid: React.FC<ChannelGridProps> = React.memo(({
     };
   }, [channels, tasks]);
 
-  if (channels.length === 0) {
+  const renderContent = () => {
+    if (channels.length === 0) {
+      return (
+        <div className={styles.channelGridContainer}>
+          <div className={styles.emptyState}>
+            <div className={styles.emptyStateIcon}>📺</div>
+            <h2 className={styles.emptyStateTitle}>No channels yet</h2>
+            <p className={styles.emptyStateDescription}>
+              Create your first channel to start managing your content across multiple platforms.
+            </p>
+            <button 
+              className={`${styles.addChannelBtn} ${styles.primary}`}
+              onClick={() => {
+                console.log('Create Your First Channel button clicked');
+                setIsAddModalOpen(true);
+                console.log('Modal state set to true');
+              }}
+            >
+              Create Your First Channel
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className={styles.channelGridContainer}>
-        <div className={styles.emptyState}>
-          <div className={styles.emptyStateIcon}>📺</div>
-          <h2 className={styles.emptyStateTitle}>No channels yet</h2>
-          <p className={styles.emptyStateDescription}>
-            Create your first channel to start managing your content across multiple platforms.
-          </p>
+        <div className={styles.channelGridHeader}>
+          <div className={styles.gridTitleSection}>
+            <h2 className={styles.gridTitle}>Your Channels</h2>
+            <span className={styles.channelCount}>
+              {statistics.activeChannels} active, {statistics.totalChannels} total
+            </span>
+          </div>
           <button 
-            className={`${styles.addChannelBtn} ${styles.primary}`}
+            className={`${styles.addChannelBtn} ${styles.secondary}`}
             onClick={() => setIsAddModalOpen(true)}
           >
-            Create Your First Channel
+            + Add Channel
           </button>
+        </div>
+
+        <div className={styles.channelGrid}>
+          {sortedChannels.map((channel) => (
+            <ChannelCard
+              key={channel.id}
+              channel={channel}
+              tasks={tasks}
+              onEdit={handleEditChannel}
+              onToggleActive={handleToggleChannelActive}
+              onDelete={handleDeleteChannel}
+            />
+          ))}
+        </div>
+
+        {/* Grid Statistics */}
+        <div className={styles.gridStats}>
+          <div className={styles.statCard}>
+            <span className={styles.statNumber}>{statistics.totalChannels}</span>
+            <span className={styles.statLabel}>Total Channels</span>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statNumber}>{statistics.activeChannels}</span>
+            <span className={styles.statLabel}>Active Channels</span>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statNumber}>{statistics.totalTasks}</span>
+            <span className={styles.statLabel}>Total Tasks</span>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statNumber}>{statistics.completedTasks}</span>
+            <span className={styles.statLabel}>Completed Tasks</span>
+          </div>
         </div>
       </div>
     );
-  }
+  };
 
   return (
-    <div className={styles.channelGridContainer}>
-      <div className={styles.channelGridHeader}>
-        <div className={styles.gridTitleSection}>
-          <h2 className={styles.gridTitle}>Your Channels</h2>
-          <span className={styles.channelCount}>
-            {statistics.activeChannels} active, {statistics.totalChannels} total
-          </span>
-        </div>
-        <button 
-          className={`${styles.addChannelBtn} ${styles.secondary}`}
-          onClick={() => setIsAddModalOpen(true)}
-        >
-          + Add Channel
-        </button>
-      </div>
-
-      <div className={styles.channelGrid}>
-        {sortedChannels.map((channel) => (
-          <ChannelCard
-            key={channel.id}
-            channel={channel}
-            tasks={tasks}
-            onEdit={handleEditChannel}
-            onToggleActive={handleToggleChannelActive}
-            onDelete={handleDeleteChannel}
-          />
-        ))}
-      </div>
-
-      {/* Grid Statistics */}
-      <div className={styles.gridStats}>
-        <div className={styles.statCard}>
-          <span className={styles.statNumber}>{statistics.totalChannels}</span>
-          <span className={styles.statLabel}>Total Channels</span>
-        </div>
-        <div className={styles.statCard}>
-          <span className={styles.statNumber}>{statistics.activeChannels}</span>
-          <span className={styles.statLabel}>Active Channels</span>
-        </div>
-        <div className={styles.statCard}>
-          <span className={styles.statNumber}>{statistics.totalTasks}</span>
-          <span className={styles.statLabel}>Total Tasks</span>
-        </div>
-        <div className={styles.statCard}>
-          <span className={styles.statNumber}>{statistics.completedTasks}</span>
-          <span className={styles.statLabel}>Completed Tasks</span>
-        </div>
-      </div>
-
-      {/* Add Channel Modal */}
+    <>
+      {renderContent()}
+      
+      {/* Add Channel Modal - Always rendered outside conditional content */}
       <AddChannelModal
         isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
+        onClose={() => {
+          console.log('Closing modal');
+          setIsAddModalOpen(false);
+        }}
       />
 
       {/* Channel Settings Modal */}
@@ -160,6 +178,6 @@ export const ChannelGrid: React.FC<ChannelGridProps> = React.memo(({
         channel={selectedChannel}
         onClose={handleCloseSettings}
       />
-    </div>
+    </>
   );
 });

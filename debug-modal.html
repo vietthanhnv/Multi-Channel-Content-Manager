@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Modal Issue</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .debug-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .test-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #2563eb;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 90%;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Debug Modal Issue</h1>
+    
+    <div class="debug-section">
+        <h2>Test Simple Modal</h2>
+        <p>This tests if basic modal functionality works:</p>
+        <button class="test-button" onclick="showTestModal()">Show Test Modal</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>Instructions</h2>
+        <ol>
+            <li>Click the "Show Test Modal" button above</li>
+            <li>If the modal appears, the issue is likely in the React component</li>
+            <li>If the modal doesn't appear, there might be a CSS or z-index issue</li>
+            <li>Check the browser console for any errors</li>
+        </ol>
+    </div>
+
+    <div class="debug-section">
+        <h2>Debugging Steps for React App</h2>
+        <ol>
+            <li>Open browser developer tools (F12)</li>
+            <li>Go to the Console tab</li>
+            <li>Click the "Create Your First Channel" button in your app</li>
+            <li>Check if there are any JavaScript errors</li>
+            <li>Go to the Elements tab and search for "modalOverlay" to see if the modal DOM is being created</li>
+            <li>If the modal DOM exists but isn't visible, check the computed styles</li>
+        </ol>
+    </div>
+
+    <!-- Test Modal -->
+    <div id="testModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>Test Modal</h3>
+            <p>If you can see this, basic modal functionality works!</p>
+            <button class="test-button" onclick="hideTestModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function showTestModal() {
+            console.log('Showing test modal');
+            document.getElementById('testModal').classList.remove('hidden');
+        }
+
+        function hideTestModal() {
+            console.log('Hiding test modal');
+            document.getElementById('testModal').classList.add('hidden');
+        }
+
+        // Log when page loads
+        console.log('Debug page loaded. Click the test button to verify modal functionality.');
+    </script>
+</body>
+</html>
