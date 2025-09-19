@@ -1,4 +1,4 @@
-import { Channel, ContentTemplate, WeeklySchedule } from '../types';
+import { Channel, TaskTemplate, WeeklySchedule } from '../types';
 
 export interface BackupData {
   version: string;

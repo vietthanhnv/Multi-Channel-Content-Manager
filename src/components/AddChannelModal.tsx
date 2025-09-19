@@ -193,6 +193,7 @@ export const AddChannelModal: React.FC<AddChannelModalProps> = ({ isOpen, onClos
         color: formData.color,
         createdAt: new Date(),
         isActive: true,
+        assignedTasks: [],
       };
 
       // Validate the complete channel object

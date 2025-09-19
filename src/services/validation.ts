@@ -1,10 +1,10 @@
 import { 
   Channel, 
-  ContentTemplate, 
+  TaskTemplate, 
   Task, 
   WeeklySchedule, 
   AppState,
-  ContentType,
+  TaskCategory,
   TaskStatus,
   ChannelContentType,
   PostingFrequency
@@ -147,8 +147,8 @@ export class ChannelValidator {
 /**
  * Content template validation
  */
-export class TemplateValidator {
-  static validate(template: ContentTemplate): ValidationResult {
+export class TaskTemplateValidator {
+  static validate(template: TaskTemplate): ValidationResult {
     const errors: ValidationError[] = [];
 
     // Validate ID
@@ -156,55 +156,41 @@ export class TemplateValidator {
       errors.push(new ValidationError('Template ID is required and must be a non-empty string', 'id'));
     }
 
-    // Validate name
-    if (!ValidationUtils.isValidString(template.name, 1, 100)) {
-      errors.push(new ValidationError('Template name must be between 1 and 100 characters', 'name'));
+    // Validate title
+    if (!ValidationUtils.isValidString(template.title, 1, 100)) {
+      errors.push(new ValidationError('Template title must be between 1 and 100 characters', 'title'));
     }
 
-    // Validate content type
-    const validContentTypes: ContentType[] = ['video', 'short', 'post'];
-    if (!ValidationUtils.isValidEnum(template.contentType, validContentTypes)) {
-      errors.push(new ValidationError('Invalid template content type', 'contentType'));
+    // Validate description
+    if (!ValidationUtils.isValidString(template.description, 1, 500)) {
+      errors.push(new ValidationError('Template description must be between 1 and 500 characters', 'description'));
+    }
+
+    // Validate category
+    const validCategories: TaskCategory[] = ['content-creation', 'production', 'marketing', 'admin', 'other'];
+    if (!ValidationUtils.isValidEnum(template.category, validCategories)) {
+      errors.push(new ValidationError('Invalid template category', 'category'));
     }
 
     // Validate estimated hours
-    const hoursErrors = this.validateEstimatedHours(template.estimatedHours);
-    errors.push(...hoursErrors);
+    if (!ValidationUtils.isValidNumber(template.estimatedHours, 0.5, 168)) { // Min 0.5h, Max 168 hours (1 week)
+      errors.push(new ValidationError('Estimated hours must be between 0.5 and 168 hours', 'estimatedHours'));
+    }
 
     // Validate workflow steps
-    if (!ValidationUtils.isValidArray(template.workflowSteps, (step) => ValidationUtils.isValidString(step, 1, 200))) {
+    if (!ValidationUtils.isValidArray(template.workflowSteps, (step) => ValidationUtils.isValidString(step as string, 1, 200))) {
       errors.push(new ValidationError('Workflow steps must be an array of valid strings', 'workflowSteps'));
     }
 
-    // Validate channel IDs
-    if (!ValidationUtils.isValidArray(template.channelIds, ValidationUtils.isValidId)) {
-      errors.push(new ValidationError('Channel IDs must be an array of valid ID strings', 'channelIds'));
+    // Validate created date
+    if (!ValidationUtils.isValidDate(template.createdAt)) {
+      errors.push(new ValidationError('Created date must be a valid date', 'createdAt'));
     }
 
     return {
       isValid: errors.length === 0,
       errors
     };
-  }
-
-  private static validateEstimatedHours(hours: ContentTemplate['estimatedHours']): ValidationError[] {
-    const errors: ValidationError[] = [];
-
-    const phases = ['planning', 'production', 'editing', 'publishing'] as const;
-    
-    phases.forEach(phase => {
-      if (!ValidationUtils.isValidNumber(hours[phase], 0, 168)) { // Max 168 hours (1 week)
-        errors.push(new ValidationError(`${phase} hours must be a valid number between 0 and 168`, `estimatedHours.${phase}`));
-      }
-    });
-
-    // Check total hours is reasonable
-    const total = phases.reduce((sum, phase) => sum + hours[phase], 0);
-    if (total > 168) {
-      errors.push(new ValidationError('Total estimated hours cannot exceed 168 hours (1 week)', 'estimatedHours'));
-    }
-
-    return errors;
   }
 }
 
@@ -235,10 +221,9 @@ export class TaskValidator {
       errors.push(new ValidationError('Task title must be between 1 and 200 characters', 'title'));
     }
 
-    // Validate content type
-    const validContentTypes: ContentType[] = ['video', 'short', 'post'];
-    if (!ValidationUtils.isValidEnum(task.contentType, validContentTypes)) {
-      errors.push(new ValidationError('Invalid task content type', 'contentType'));
+    // Validate description (optional)
+    if (task.description && !ValidationUtils.isValidString(task.description, 0, 500)) {
+      errors.push(new ValidationError('Description must be less than 500 characters if provided', 'description'));
     }
 
     // Validate estimated hours
@@ -276,6 +261,18 @@ export class TaskValidator {
     // Validate notes (optional)
     if (task.notes && !ValidationUtils.isValidString(task.notes, 0, 1000)) {
       errors.push(new ValidationError('Notes must be less than 1000 characters if provided', 'notes'));
+    }
+
+    // Validate time slot
+    const validTimeSlots = ['morning', 'afternoon', 'evening'];
+    if (!ValidationUtils.isValidEnum(task.timeSlot, validTimeSlots)) {
+      errors.push(new ValidationError('Invalid time slot', 'timeSlot'));
+    }
+
+    // Validate priority
+    const validPriorities = ['low', 'medium', 'high'];
+    if (!ValidationUtils.isValidEnum(task.priority, validPriorities)) {
+      errors.push(new ValidationError('Invalid priority', 'priority'));
     }
 
     return {
@@ -466,12 +463,12 @@ export class DataValidator {
     }
 
     // Validate templates
-    if (state.templates) {
-      state.templates.forEach((template, index) => {
-        const validation = TemplateValidator.validate(template);
+    if (state.taskTemplates) {
+      state.taskTemplates.forEach((template, index) => {
+        const validation = TaskTemplateValidator.validate(template);
         if (!validation.isValid) {
           validation.errors.forEach(error => {
-            errors.push(new ValidationError(`Template ${index}: ${error.message}`, `templates[${index}].${error.field}`));
+            errors.push(new ValidationError(`Template ${index}: ${error.message}`, `taskTemplates[${index}].${error.field}`));
           });
         }
       });

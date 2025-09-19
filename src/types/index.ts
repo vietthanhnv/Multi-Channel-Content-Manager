@@ -12,20 +12,23 @@ export interface Channel {
   color: string; // For visual identification
   createdAt: Date;
   isActive: boolean;
+  assignedTasks: ChannelTaskAssignment[]; // Task templates assigned to this channel
 }
 
-export interface ContentTemplate {
+export interface TaskTemplate {
   id: string;
-  name: string;
-  contentType: 'video' | 'short' | 'post';
-  estimatedHours: {
-    planning: number;
-    production: number;
-    editing: number;
-    publishing: number;
-  };
+  title: string;
+  description: string;
+  estimatedHours: number;
+  category: 'content-creation' | 'production' | 'marketing' | 'admin' | 'other';
   workflowSteps: string[];
-  channelIds: string[]; // Associated channels
+  createdAt: Date;
+}
+
+export interface ChannelTaskAssignment {
+  templateId: string;
+  quantity: number;
+  priority: 'low' | 'medium' | 'high';
 }
 
 export interface Task {
@@ -33,13 +36,15 @@ export interface Task {
   channelId: string;
   templateId?: string;
   title: string;
-  contentType: 'video' | 'short' | 'post';
+  description?: string;
   estimatedHours: number;
   status: 'planned' | 'in-progress' | 'completed' | 'overdue';
   scheduledStart: Date;
   scheduledEnd: Date;
+  timeSlot: 'morning' | 'afternoon' | 'evening';
   actualHours?: number;
   notes?: string;
+  priority: 'low' | 'medium' | 'high';
 }
 
 export interface WeeklySchedule {
@@ -53,7 +58,7 @@ export interface WeeklySchedule {
 // Application state interface
 export interface AppState {
   channels: Channel[];
-  templates: ContentTemplate[];
+  taskTemplates: TaskTemplate[];
   currentWeek: WeeklySchedule;
   selectedChannelId?: string;
   userSettings: {
@@ -73,12 +78,13 @@ export type AppAction =
   | { type: 'ADD_CHANNEL'; payload: Channel }
   | { type: 'UPDATE_CHANNEL'; payload: { id: string; updates: Partial<Channel> } }
   | { type: 'DELETE_CHANNEL'; payload: string }
-  | { type: 'ADD_TEMPLATE'; payload: ContentTemplate }
-  | { type: 'UPDATE_TEMPLATE'; payload: { id: string; updates: Partial<ContentTemplate> } }
-  | { type: 'DELETE_TEMPLATE'; payload: string }
+  | { type: 'ADD_TASK_TEMPLATE'; payload: TaskTemplate }
+  | { type: 'UPDATE_TASK_TEMPLATE'; payload: { id: string; updates: Partial<TaskTemplate> } }
+  | { type: 'DELETE_TASK_TEMPLATE'; payload: string }
   | { type: 'ADD_TASK'; payload: Task }
   | { type: 'UPDATE_TASK'; payload: { id: string; updates: Partial<Task> } }
   | { type: 'DELETE_TASK'; payload: string }
+  | { type: 'GENERATE_TASKS_FROM_TEMPLATES'; payload: { channelId: string } }
   | { type: 'SET_CURRENT_WEEK'; payload: WeeklySchedule }
   | { type: 'SET_SELECTED_CHANNEL'; payload: string | undefined }
   | { type: 'UPDATE_USER_SETTINGS'; payload: Partial<AppState['userSettings']> }
@@ -88,8 +94,10 @@ export type AppAction =
   | { type: 'CLEAR_ERRORS' };
 
 // Utility types
-export type ContentType = 'video' | 'short' | 'post';
 export type TaskStatus = 'planned' | 'in-progress' | 'completed' | 'overdue';
+export type TaskPriority = 'low' | 'medium' | 'high';
+export type TaskCategory = 'content-creation' | 'production' | 'marketing' | 'admin' | 'other';
+export type TimeSlot = 'morning' | 'afternoon' | 'evening';
 export type ChannelContentType = 'gaming' | 'educational' | 'entertainment' | 'lifestyle' | 'other';
 export type PostingFrequency = 'daily' | 'weekly' | 'biweekly' | 'monthly';
 export type AppView = 'dashboard' | 'templates' | 'calendar' | 'analytics';

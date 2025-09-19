@@ -1,4 +1,4 @@
-import { Channel, ContentTemplate, WeeklySchedule, AppState } from '../types';
+import { Channel, TaskTemplate, WeeklySchedule, AppState } from '../types';
 import { localStorageService } from './localStorage';
 import { DataValidator, ValidationError } from './validation';
 import { APP_VERSION } from '../utils/constants';
@@ -68,7 +68,7 @@ export class DataExportService {
         version: APP_VERSION,
         exportDate: new Date().toISOString(),
         channels: localStorageService.getChannels(),
-        templates: localStorageService.getTemplates(),
+        taskTemplates: localStorageService.getTaskTemplates(),
         schedules: localStorageService.getSchedules(),
         userSettings: localStorageService.getUserSettings(),
       };
@@ -150,7 +150,7 @@ export class DataExportService {
       if (options.validateData) {
         const dataValidation = DataValidator.validateAppState({
           channels: importData.channels,
-          templates: importData.templates,
+          taskTemplates: importData.taskTemplates,
           currentWeek: Object.values(importData.schedules)[0] // Validate first schedule as sample
         });
         
@@ -369,7 +369,7 @@ export class DataExportService {
     errors: ValidationError[];
   }> {
     const result = { imported: 0, skipped: 0, errors: [] as ValidationError[] };
-    const existingTemplates = localStorageService.getTemplates();
+    const existingTemplates = localStorageService.getTaskTemplates();
     const existingIds = new Set(existingTemplates.map(t => t.id));
 
     for (const template of templates) {
@@ -379,11 +379,11 @@ export class DataExportService {
             result.skipped++;
             continue;
           } else if (mergeMode === 'merge' || mergeMode === 'replace') {
-            localStorageService.updateTemplate(template.id, template);
+            localStorageService.updateTaskTemplate(template.id, template);
             result.imported++;
           }
         } else {
-          localStorageService.addTemplate(template);
+          localStorageService.addTaskTemplate(template);
           result.imported++;
         }
       } catch (error) {

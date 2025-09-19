@@ -1,10 +1,10 @@
 import React from 'react';
-import { Task } from '../types';
+import { Task, TimeSlot as TimeSlotType } from '../types';
 import styles from './TimeSlot.module.css';
 
 interface TimeSlotProps {
   date: Date;
-  timeSlot: string;
+  timeSlot: TimeSlotType;
   tasks: Task[];
   isWorkingTime: boolean;
   onTaskDrop?: (taskId: string, newStart: Date, newEnd: Date) => void;
@@ -20,11 +20,26 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
   // Calculate the start and end times for this slot
   const getSlotTimes = () => {
     const slotStart = new Date(date);
-    const [hours, minutes] = timeSlot.split(':').map(Number);
-    slotStart.setHours(hours, minutes, 0, 0);
+    const slotEnd = new Date(date);
     
-    const slotEnd = new Date(slotStart);
-    slotEnd.setHours(hours + 1, 0, 0, 0);
+    // Set times based on time slot
+    switch (timeSlot) {
+      case 'morning':
+        slotStart.setHours(9, 0, 0, 0);
+        slotEnd.setHours(12, 0, 0, 0);
+        break;
+      case 'afternoon':
+        slotStart.setHours(12, 0, 0, 0);
+        slotEnd.setHours(17, 0, 0, 0);
+        break;
+      case 'evening':
+        slotStart.setHours(17, 0, 0, 0);
+        slotEnd.setHours(21, 0, 0, 0);
+        break;
+      default:
+        slotStart.setHours(9, 0, 0, 0);
+        slotEnd.setHours(17, 0, 0, 0);
+    }
     
     return { slotStart, slotEnd };
   };
@@ -47,11 +62,8 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
       const taskData = JSON.parse(e.dataTransfer.getData('application/json'));
       const { slotStart, slotEnd } = getSlotTimes();
       
-      // Calculate new end time based on task duration
-      const taskDuration = taskData.estimatedHours * 60 * 60 * 1000; // Convert hours to milliseconds
-      const newEnd = new Date(slotStart.getTime() + taskDuration);
-      
-      onTaskDrop(taskData.id, slotStart, newEnd);
+      // Use the slot end time as the task end time for simplicity
+      onTaskDrop(taskData.id, slotStart, slotEnd);
     } catch (error) {
       console.error('Error handling task drop:', error);
     }

@@ -3,7 +3,7 @@
 // localStorage keys
 export const STORAGE_KEYS = {
   CHANNELS: 'mcm_channels',
-  TEMPLATES: 'mcm_templates',
+  TASK_TEMPLATES: 'mcm_task_templates',
   SCHEDULES: 'mcm_schedules',
   USER_SETTINGS: 'mcm_user_settings',
   APP_VERSION: 'mcm_app_version',
@@ -19,11 +19,27 @@ export const DEFAULT_USER_SETTINGS = {
   workingHours: { start: '09:00', end: '17:00' },
 };
 
-// Content type options
-export const CONTENT_TYPES = [
-  { value: 'video', label: 'Video' },
-  { value: 'short', label: 'Short' },
-  { value: 'post', label: 'Post' },
+// Task category options
+export const TASK_CATEGORIES = [
+  { value: 'content-creation', label: 'Content Creation' },
+  { value: 'production', label: 'Production' },
+  { value: 'marketing', label: 'Marketing' },
+  { value: 'admin', label: 'Administration' },
+  { value: 'other', label: 'Other' },
+] as const;
+
+// Task priority options
+export const TASK_PRIORITIES = [
+  { value: 'low', label: 'Low', color: '#6b7280' },
+  { value: 'medium', label: 'Medium', color: '#f59e0b' },
+  { value: 'high', label: 'High', color: '#ef4444' },
+] as const;
+
+// Time slot options
+export const TIME_SLOTS = [
+  { value: 'morning', label: 'Morning (9AM - 12PM)' },
+  { value: 'afternoon', label: 'Afternoon (12PM - 5PM)' },
+  { value: 'evening', label: 'Evening (5PM - 9PM)' },
 ] as const;
 
 // Channel content type options

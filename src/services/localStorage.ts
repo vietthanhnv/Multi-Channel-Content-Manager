@@ -1,4 +1,4 @@
-import { Channel, ContentTemplate, WeeklySchedule, AppState } from '../types';
+import { Channel, TaskTemplate, WeeklySchedule, AppState } from '../types';
 import { STORAGE_KEYS, APP_VERSION, DEFAULT_USER_SETTINGS } from '../utils/constants';
 
 /**
@@ -60,8 +60,8 @@ export class LocalStorageService {
         this.setItem(STORAGE_KEYS.CHANNELS, []);
       }
 
-      if (!localStorage.getItem(STORAGE_KEYS.TEMPLATES)) {
-        this.setItem(STORAGE_KEYS.TEMPLATES, []);
+      if (!localStorage.getItem(STORAGE_KEYS.TASK_TEMPLATES)) {
+        this.setItem(STORAGE_KEYS.TASK_TEMPLATES, []);
       }
 
       if (!localStorage.getItem(STORAGE_KEYS.SCHEDULES)) {
@@ -157,39 +157,39 @@ export class LocalStorageService {
     this.setItem(STORAGE_KEYS.CHANNELS, filteredChannels);
   }
 
-  // Template CRUD operations
-  public getTemplates(): ContentTemplate[] {
-    return this.getItem(STORAGE_KEYS.TEMPLATES, []);
+  // Task Template CRUD operations
+  public getTaskTemplates(): TaskTemplate[] {
+    return this.getItem(STORAGE_KEYS.TASK_TEMPLATES, []);
   }
 
-  public getTemplate(id: string): ContentTemplate | null {
-    const templates = this.getTemplates();
+  public getTaskTemplate(id: string): TaskTemplate | null {
+    const templates = this.getTaskTemplates();
     return templates.find(template => template.id === id) || null;
   }
 
-  public addTemplate(template: ContentTemplate): void {
-    const templates = this.getTemplates();
+  public addTaskTemplate(template: TaskTemplate): void {
+    const templates = this.getTaskTemplates();
     templates.push(template);
-    this.setItem(STORAGE_KEYS.TEMPLATES, templates);
+    this.setItem(STORAGE_KEYS.TASK_TEMPLATES, templates);
   }
 
-  public updateTemplate(id: string, updates: Partial<ContentTemplate>): void {
-    const templates = this.getTemplates();
+  public updateTaskTemplate(id: string, updates: Partial<TaskTemplate>): void {
+    const templates = this.getTaskTemplates();
     const index = templates.findIndex(template => template.id === id);
     if (index === -1) {
-      throw new LocalStorageError(`Template not found: ${id}`, 'NOT_FOUND');
+      throw new LocalStorageError(`Task template not found: ${id}`, 'NOT_FOUND');
     }
     templates[index] = { ...templates[index], ...updates };
-    this.setItem(STORAGE_KEYS.TEMPLATES, templates);
+    this.setItem(STORAGE_KEYS.TASK_TEMPLATES, templates);
   }
 
-  public deleteTemplate(id: string): void {
-    const templates = this.getTemplates();
+  public deleteTaskTemplate(id: string): void {
+    const templates = this.getTaskTemplates();
     const filteredTemplates = templates.filter(template => template.id !== id);
     if (filteredTemplates.length === templates.length) {
-      throw new LocalStorageError(`Template not found: ${id}`, 'NOT_FOUND');
+      throw new LocalStorageError(`Task template not found: ${id}`, 'NOT_FOUND');
     }
-    this.setItem(STORAGE_KEYS.TEMPLATES, filteredTemplates);
+    this.setItem(STORAGE_KEYS.TASK_TEMPLATES, filteredTemplates);
   }
 
   // Schedule CRUD operations
@@ -260,7 +260,7 @@ export class LocalStorageService {
     const data = {
       version: APP_VERSION,
       channels: this.getChannels(),
-      templates: this.getTemplates(),
+      taskTemplates: this.getTaskTemplates(),
       schedules: this.getSchedules(),
       userSettings: this.getUserSettings(),
       exportDate: new Date().toISOString(),

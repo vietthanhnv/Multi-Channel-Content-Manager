@@ -1,5 +1,5 @@
 import { LocalStorageService } from './localStorage';
-import { Channel, ContentTemplate, WeeklySchedule, AppState } from '../types';
+import { Channel, TaskTemplate, WeeklySchedule, AppState } from '../types';
 
 /**
  * Debounced localStorage service to batch updates and improve performance
@@ -44,22 +44,22 @@ export class DebouncedLocalStorageService {
   }
 
   /**
-   * Debounced update for templates
+   * Debounced update for task templates
    */
-  public debouncedUpdateTemplates(templates: ContentTemplate[]): void {
-    this.debouncedUpdate('templates', templates, () => {
+  public debouncedUpdateTaskTemplates(templates: TaskTemplate[]): void {
+    this.debouncedUpdate('taskTemplates', templates, () => {
       // Clear existing templates and add new ones
-      const currentTemplates = this.localStorageService.getTemplates();
+      const currentTemplates = this.localStorageService.getTaskTemplates();
       currentTemplates.forEach(template => {
         try {
-          this.localStorageService.deleteTemplate(template.id);
+          this.localStorageService.deleteTaskTemplate(template.id);
         } catch {
           // Template might not exist, ignore error
         }
       });
       
       templates.forEach(template => {
-        this.localStorageService.addTemplate(template);
+        this.localStorageService.addTaskTemplate(template);
       });
     });
   }
@@ -135,16 +135,16 @@ export class DebouncedLocalStorageService {
               (pendingData as Channel[]).forEach(channel => {
                 this.localStorageService.addChannel(channel);
               });
-            } else if (key === 'templates') {
-              this.localStorageService.getTemplates().forEach(template => {
+            } else if (key === 'taskTemplates') {
+              this.localStorageService.getTaskTemplates().forEach(template => {
                 try {
-                  this.localStorageService.deleteTemplate(template.id);
+                  this.localStorageService.deleteTaskTemplate(template.id);
                 } catch {
                   // Ignore errors
                 }
               });
-              (pendingData as ContentTemplate[]).forEach(template => {
-                this.localStorageService.addTemplate(template);
+              (pendingData as TaskTemplate[]).forEach(template => {
+                this.localStorageService.addTaskTemplate(template);
               });
             } else if (key.startsWith('schedule_')) {
               const weekKey = key.replace('schedule_', '');

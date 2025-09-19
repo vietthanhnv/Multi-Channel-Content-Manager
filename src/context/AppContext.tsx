@@ -5,7 +5,7 @@ import { debouncedLocalStorageService } from '../services/debouncedLocalStorage'
 // Initial state
 const initialState: AppState = {
   channels: [],
-  templates: [],
+  taskTemplates: [],
   currentWeek: {
     weekStartDate: new Date(),
     tasks: [],
@@ -52,27 +52,63 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         selectedChannelId: state.selectedChannelId === action.payload ? undefined : state.selectedChannelId,
       };
 
-    case 'ADD_TEMPLATE':
+    case 'ADD_TASK_TEMPLATE':
       return {
         ...state,
-        templates: [...state.templates, action.payload],
+        taskTemplates: [...state.taskTemplates, action.payload],
       };
 
-    case 'UPDATE_TEMPLATE':
+    case 'UPDATE_TASK_TEMPLATE':
       return {
         ...state,
-        templates: state.templates.map(template =>
+        taskTemplates: state.taskTemplates.map(template =>
           template.id === action.payload.id
             ? { ...template, ...action.payload.updates }
             : template
         ),
       };
 
-    case 'DELETE_TEMPLATE':
+    case 'DELETE_TASK_TEMPLATE':
       return {
         ...state,
-        templates: state.templates.filter(template => template.id !== action.payload),
+        taskTemplates: state.taskTemplates.filter(template => template.id !== action.payload),
       };
+
+    case 'GENERATE_TASKS_FROM_TEMPLATES': {
+      const channel = state.channels.find(c => c.id === action.payload.channelId);
+      if (!channel || !channel.assignedTasks.length) return state;
+
+      const newTasks = channel.assignedTasks.flatMap(assignment => {
+        const template = state.taskTemplates.find(t => t.id === assignment.templateId);
+        if (!template) return [];
+
+        return Array.from({ length: assignment.quantity }, (_, index) => ({
+          id: `${template.id}-${channel.id}-${Date.now()}-${index}`,
+          channelId: channel.id,
+          templateId: template.id,
+          title: `${template.title} ${assignment.quantity > 1 ? `(${index + 1})` : ''}`,
+          description: template.description,
+          estimatedHours: template.estimatedHours,
+          status: 'planned' as const,
+          scheduledStart: new Date(),
+          scheduledEnd: new Date(),
+          timeSlot: 'morning' as const,
+          priority: assignment.priority,
+        }));
+      });
+
+      const totalNewHours = newTasks.reduce((sum, task) => sum + task.estimatedHours, 0);
+
+      return {
+        ...state,
+        currentWeek: {
+          ...state.currentWeek,
+          tasks: [...state.currentWeek.tasks, ...newTasks],
+          totalScheduledHours: state.currentWeek.totalScheduledHours + totalNewHours,
+          isOverloaded: (state.currentWeek.totalScheduledHours + totalNewHours) > state.userSettings.weeklyCapacityHours,
+        },
+      };
+    }
 
     case 'ADD_TASK':
       return {
@@ -207,8 +243,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({
   }, [state.channels]);
 
   useEffect(() => {
-    debouncedLocalStorageService.debouncedUpdateTemplates(state.templates);
-  }, [state.templates]);
+    debouncedLocalStorageService.debouncedUpdateTaskTemplates(state.taskTemplates);
+  }, [state.taskTemplates]);
 
   useEffect(() => {
     const weekKey = state.currentWeek.weekStartDate.toISOString().split('T')[0];

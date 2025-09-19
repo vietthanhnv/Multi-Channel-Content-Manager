@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Channel, ChannelContentType, PostingFrequency } from '../types';
+import { Channel, ChannelContentType, PostingFrequency, ChannelTaskAssignment, TaskPriority } from '../types';
 import { useAppContext } from '../context/AppContext';
 import { ChannelValidator } from '../services/validation';
-import { CHANNEL_CONTENT_TYPES, POSTING_FREQUENCIES, DAYS_OF_WEEK, CHANNEL_COLORS } from '../utils/constants';
+import { CHANNEL_CONTENT_TYPES, POSTING_FREQUENCIES, DAYS_OF_WEEK, CHANNEL_COLORS, TASK_PRIORITIES } from '../utils/constants';
 import styles from './ChannelSettings.module.css';
 
 interface ChannelSettingsProps {
@@ -19,6 +19,7 @@ interface FormData {
   preferredTimes: string[];
   color: string;
   isActive: boolean;
+  assignedTasks: ChannelTaskAssignment[];
 }
 
 interface FormErrors {
@@ -27,6 +28,7 @@ interface FormErrors {
   frequency?: string;
   preferredDays?: string;
   preferredTimes?: string;
+  assignedTasks?: string;
   general?: string;
 }
 
@@ -40,6 +42,7 @@ export const ChannelSettings: React.FC<ChannelSettingsProps> = ({ isOpen, channe
     preferredTimes: [],
     color: CHANNEL_COLORS[0],
     isActive: true,
+    assignedTasks: [],
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,6 +60,7 @@ export const ChannelSettings: React.FC<ChannelSettingsProps> = ({ isOpen, channe
         preferredTimes: [...channel.postingSchedule.preferredTimes],
         color: channel.color,
         isActive: channel.isActive,
+        assignedTasks: channel.assignedTasks ? [...channel.assignedTasks] : [],
       });
       setErrors({});
       setNewTimeInput('');
@@ -106,6 +110,41 @@ export const ChannelSettings: React.FC<ChannelSettingsProps> = ({ isOpen, channe
   // Handle time removal
   const handleRemoveTime = (timeToRemove: string) => {
     handleInputChange('preferredTimes', formData.preferredTimes.filter(t => t !== timeToRemove));
+  };
+
+  // Handle task assignment
+  const handleAddTaskAssignment = (templateId: string) => {
+    const existingAssignment = formData.assignedTasks.find(task => task.templateId === templateId);
+    if (existingAssignment) {
+      // Increase quantity if already assigned
+      handleInputChange('assignedTasks', formData.assignedTasks.map(task =>
+        task.templateId === templateId
+          ? { ...task, quantity: task.quantity + 1 }
+          : task
+      ));
+    } else {
+      // Add new assignment
+      const newAssignment: ChannelTaskAssignment = {
+        templateId,
+        quantity: 1,
+        priority: 'medium',
+      };
+      handleInputChange('assignedTasks', [...formData.assignedTasks, newAssignment]);
+    }
+  };
+
+  // Handle task assignment removal
+  const handleRemoveTaskAssignment = (templateId: string) => {
+    handleInputChange('assignedTasks', formData.assignedTasks.filter(task => task.templateId !== templateId));
+  };
+
+  // Handle task assignment update
+  const handleUpdateTaskAssignment = (templateId: string, updates: Partial<ChannelTaskAssignment>) => {
+    handleInputChange('assignedTasks', formData.assignedTasks.map(task =>
+      task.templateId === templateId
+        ? { ...task, ...updates }
+        : task
+    ));
   };
 
   // Validate form
@@ -158,6 +197,7 @@ export const ChannelSettings: React.FC<ChannelSettingsProps> = ({ isOpen, channe
         },
         color: formData.color,
         isActive: formData.isActive,
+        assignedTasks: formData.assignedTasks,
       };
 
       // Validate the complete channel object
@@ -474,6 +514,159 @@ export const ChannelSettings: React.FC<ChannelSettingsProps> = ({ isOpen, channe
               ))}
             </div>
           </div>
+
+          {/* Task Templates Assignment */}
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              Assigned Task Templates
+            </label>
+            <p className={styles.helpText}>
+              Select task templates to assign to this channel. These will be used to generate tasks on the calendar.
+            </p>
+            
+            {/* Available Templates */}
+            <div className={styles.templateSelector}>
+              <h4 className={styles.sectionTitle}>Available Templates</h4>
+              {state.taskTemplates.length === 0 ? (
+                <div className={styles.noTemplates}>
+                  <p>No task templates available. Create some templates first in the Templates tab.</p>
+                </div>
+              ) : (
+                <div className={styles.availableTemplates}>
+                  {state.taskTemplates
+                    .filter(template => !formData.assignedTasks.some(assigned => assigned.templateId === template.id))
+                    .map(template => (
+                      <div key={template.id} className={styles.templateItem}>
+                        <div className={styles.templateInfo}>
+                          <strong>{template.title}</strong>
+                          <span className={styles.templateHours}>{template.estimatedHours}h</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleAddTaskAssignment(template.id)}
+                          className={styles.addTemplateButton}
+                          disabled={isSubmitting}
+                        >
+                          Add
+                        </button>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+
+            {/* Assigned Templates */}
+            {formData.assignedTasks.length > 0 && (
+              <div className={styles.assignedTemplates}>
+                <h4 className={styles.sectionTitle}>Assigned Templates</h4>
+                {formData.assignedTasks.map(assignment => {
+                  const template = state.taskTemplates.find(t => t.id === assignment.templateId);
+                  if (!template) return null;
+                  
+                  return (
+                    <div key={assignment.templateId} className={styles.assignedTemplateItem}>
+                      <div className={styles.assignedTemplateInfo}>
+                        <strong>{template.title}</strong>
+                        <span className={styles.templateHours}>{template.estimatedHours}h each</span>
+                      </div>
+                      
+                      <div className={styles.assignmentControls}>
+                        <div className={styles.quantityControl}>
+                          <label htmlFor={`quantity-${assignment.templateId}`} className={styles.quantityLabel}>
+                            Quantity:
+                          </label>
+                          <input
+                            id={`quantity-${assignment.templateId}`}
+                            type="number"
+                            min="1"
+                            max="10"
+                            value={assignment.quantity}
+                            onChange={(e) => handleUpdateTaskAssignment(assignment.templateId, {
+                              quantity: parseInt(e.target.value) || 1
+                            })}
+                            className={styles.quantityInput}
+                            disabled={isSubmitting}
+                          />
+                        </div>
+                        
+                        <div className={styles.priorityControl}>
+                          <label htmlFor={`priority-${assignment.templateId}`} className={styles.priorityLabel}>
+                            Priority:
+                          </label>
+                          <select
+                            id={`priority-${assignment.templateId}`}
+                            value={assignment.priority}
+                            onChange={(e) => handleUpdateTaskAssignment(assignment.templateId, {
+                              priority: e.target.value as TaskPriority
+                            })}
+                            className={styles.prioritySelect}
+                            disabled={isSubmitting}
+                          >
+                            {TASK_PRIORITIES.map(priority => (
+                              <option key={priority.value} value={priority.value}>
+                                {priority.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTaskAssignment(assignment.templateId)}
+                          className={styles.removeTemplateButton}
+                          disabled={isSubmitting}
+                          aria-label={`Remove ${template.title}`}
+                        >
+                          ×
+                        </button>
+                      </div>
+                      
+                      <div className={styles.totalHours}>
+                        Total: {template.estimatedHours * assignment.quantity}h
+                      </div>
+                    </div>
+                  );
+                })}
+                
+                <div className={styles.assignmentSummary}>
+                  <strong>
+                    Total Estimated Hours: {formData.assignedTasks.reduce((total, assignment) => {
+                      const template = state.taskTemplates.find(t => t.id === assignment.templateId);
+                      return total + (template ? template.estimatedHours * assignment.quantity : 0);
+                    }, 0)}h
+                  </strong>
+                </div>
+              </div>
+            )}
+            
+            {errors.assignedTasks && (
+              <span className={styles.fieldError} role="alert">
+                {errors.assignedTasks}
+              </span>
+            )}
+          </div>
+
+          {/* Generate Tasks Section */}
+          {formData.assignedTasks.length > 0 && (
+            <div className={styles.generateTasksSection}>
+              <h4 className={styles.sectionTitle}>Generate Calendar Tasks</h4>
+              <p className={styles.helpText}>
+                Generate tasks on the calendar based on your assigned templates. This will create individual task cards that you can drag and arrange on the weekly calendar.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  if (channel) {
+                    dispatch({ type: 'GENERATE_TASKS_FROM_TEMPLATES', payload: { channelId: channel.id } });
+                  }
+                }}
+                className={styles.generateTasksButton}
+                disabled={isSubmitting}
+              >
+                Generate Tasks for Calendar
+              </button>
+            </div>
+          )}
 
           {/* Form Actions */}
           <div className={styles.formActions}>

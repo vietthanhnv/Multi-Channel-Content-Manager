@@ -5,16 +5,17 @@ import { TouchBackend } from 'react-dnd-touch-backend';
 import { AppProviderWithPersistence } from './context/AppProviderWithPersistence';
 import { useAppContext } from './context/AppContext';
 import { ChannelGrid } from './components/ChannelGrid';
-import { TemplateLibrary } from './components/TemplateLibrary';
-import { TemplateEditor } from './components/TemplateEditor';
+import { TaskTemplateLibrary } from './components/TaskTemplateLibrary';
+import { TaskTemplateEditor } from './components/TaskTemplateEditor';
 import CalendarGrid from './components/CalendarGrid';
+import { AddTaskModal } from './components/AddTaskModal';
 import { ProgressTrackingDemo } from './components/ProgressTrackingDemo';
 import { UserSettings } from './components/UserSettings';
 import NotificationProvider, { NotificationSystem } from './components/NotificationSystem';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { usePerformanceMonitor } from './hooks/usePerformanceMonitor';
-import { ContentTemplate } from './types';
+import { TaskTemplate } from './types';
 import './styles/App.css';
 
 // Detect touch device for drag-and-drop backend
@@ -26,7 +27,8 @@ const AppContent: React.FC<AppContentProps> = React.memo(() => {
   const { state, dispatch } = useAppContext();
   const [activeView, setActiveView] = useState<'dashboard' | 'templates' | 'calendar' | 'analytics' | 'settings'>('dashboard');
   const [isTemplateEditorOpen, setIsTemplateEditorOpen] = useState(false);
-  const [editingTemplate, setEditingTemplate] = useState<ContentTemplate | null>(null);
+  const [editingTemplate, setEditingTemplate] = useState<TaskTemplate | null>(null);
+  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
   // Performance monitoring
   const { metrics } = usePerformanceMonitor('AppContent', { 
@@ -41,7 +43,7 @@ const AppContent: React.FC<AppContentProps> = React.memo(() => {
   }, [dispatch]);
 
   // Template management handlers
-  const handleEditTemplate = useCallback((template: ContentTemplate) => {
+  const handleEditTemplate = useCallback((template: TaskTemplate) => {
     setEditingTemplate(template);
     setIsTemplateEditorOpen(true);
   }, []);
@@ -56,8 +58,29 @@ const AppContent: React.FC<AppContentProps> = React.memo(() => {
     setEditingTemplate(null);
   }, []);
 
+  // Task management handlers
+  const handleCreateTask = useCallback(() => {
+    setIsAddTaskModalOpen(true);
+  }, []);
+
+  const handleCloseAddTaskModal = useCallback(() => {
+    setIsAddTaskModalOpen(false);
+  }, []);
+
   // Calendar task drop handler
   const handleTaskDrop = useCallback((taskId: string, newStart: Date, newEnd: Date) => {
+    // Determine time slot based on the start time
+    const hour = newStart.getHours();
+    let timeSlot: 'morning' | 'afternoon' | 'evening' = 'morning';
+    
+    if (hour >= 17) {
+      timeSlot = 'evening';
+    } else if (hour >= 12) {
+      timeSlot = 'afternoon';
+    } else {
+      timeSlot = 'morning';
+    }
+
     dispatch({
       type: 'UPDATE_TASK',
       payload: {
@@ -65,6 +88,7 @@ const AppContent: React.FC<AppContentProps> = React.memo(() => {
         updates: {
           scheduledStart: newStart,
           scheduledEnd: newEnd,
+          timeSlot,
         },
       },
     });
@@ -96,10 +120,10 @@ const AppContent: React.FC<AppContentProps> = React.memo(() => {
         return (
           <div className="view-content">
             <div className="view-header">
-              <h2>Content Templates</h2>
-              <p>Create and manage reusable content templates for efficient planning</p>
+              <h2>Task Templates</h2>
+              <p>Define reusable work components for your YouTube channel workflow</p>
             </div>
-            <TemplateLibrary
+            <TaskTemplateLibrary
               onEditTemplate={handleEditTemplate}
               onCreateTemplate={handleCreateTemplate}
             />
@@ -110,16 +134,45 @@ const AppContent: React.FC<AppContentProps> = React.memo(() => {
         return (
           <div className="view-content">
             <div className="view-header">
-              <h2>Weekly Calendar</h2>
-              <p>Drag and drop tasks to schedule your content creation workflow</p>
+              <div className="view-header-content">
+                <div>
+                  <h2>Weekly Calendar</h2>
+                  <p>Drag and drop tasks to schedule your content creation workflow</p>
+                </div>
+                <button 
+                  className="add-task-button"
+                  onClick={handleCreateTask}
+                  disabled={state.channels.length === 0}
+                  title={state.channels.length === 0 ? "Create a channel first to add tasks" : "Add a new task"}
+                >
+                  + Add Task
+                </button>
+              </div>
             </div>
-            <CalendarGrid
-              weekStartDate={currentWeekStart}
-              tasks={state.currentWeek.tasks}
-              workingHours={state.userSettings.workingHours}
-              workingDays={state.userSettings.workingDays}
-              onTaskDrop={handleTaskDrop}
-            />
+            
+            {state.channels.length === 0 ? (
+              <div className="calendar-empty-state">
+                <div className="empty-state-content">
+                  <div className="empty-state-icon">📅</div>
+                  <h3>No Channels Yet</h3>
+                  <p>Create your first channel in the Dashboard to start scheduling tasks.</p>
+                  <button 
+                    className="navigate-button"
+                    onClick={() => handleNavigate('dashboard')}
+                  >
+                    Go to Dashboard
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <CalendarGrid
+                weekStartDate={currentWeekStart}
+                tasks={state.currentWeek.tasks}
+                workingHours={state.userSettings.workingHours}
+                workingDays={state.userSettings.workingDays}
+                onTaskDrop={handleTaskDrop}
+              />
+            )}
           </div>
         );
 
@@ -181,8 +234,8 @@ const AppContent: React.FC<AppContentProps> = React.memo(() => {
             className={`nav-item ${activeView === 'templates' ? 'active' : ''}`}
             onClick={() => handleNavigate('templates')}
           >
-            <span className="nav-icon">📝</span>
-            Templates
+            <span className="nav-icon">📋</span>
+            Task Templates
           </button>
           
           <button
@@ -223,14 +276,20 @@ const AppContent: React.FC<AppContentProps> = React.memo(() => {
         {renderActiveView()}
       </main>
 
-      {/* Template Editor Modal */}
+      {/* Task Template Editor Modal */}
       {isTemplateEditorOpen && (
-        <TemplateEditor
+        <TaskTemplateEditor
           isOpen={isTemplateEditorOpen}
           template={editingTemplate}
           onClose={handleCloseTemplateEditor}
         />
       )}
+
+      {/* Add Task Modal */}
+      <AddTaskModal
+        isOpen={isAddTaskModalOpen}
+        onClose={handleCloseAddTaskModal}
+      />
 
       {/* Notification System */}
       <NotificationSystem />

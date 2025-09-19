@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
-import { Task } from '../types';
-import { DAYS_OF_WEEK } from '../utils/constants';
+import { Task, TimeSlot as TimeSlotType } from '../types';
+import { DAYS_OF_WEEK, TIME_SLOTS } from '../utils/constants';
 import TimeSlot from './TimeSlot';
 import styles from './CalendarGrid.module.css';
 
@@ -19,18 +19,13 @@ const CalendarGrid: React.FC<CalendarGridProps> = React.memo(({
   workingDays,
   onTaskDrop,
 }) => {
-  // Memoized time slots generation
+  // Use predefined time slots (morning, afternoon, evening)
   const timeSlots = useMemo(() => {
-    const slots: string[] = [];
-    const startHour = parseInt(workingHours.start.split(':')[0]);
-    const endHour = parseInt(workingHours.end.split(':')[0]);
-    
-    for (let hour = startHour; hour < endHour; hour++) {
-      slots.push(`${hour.toString().padStart(2, '0')}:00`);
-    }
-    
-    return slots;
-  }, [workingHours.start, workingHours.end]);
+    return TIME_SLOTS.map(slot => ({
+      value: slot.value as TimeSlotType,
+      label: slot.label,
+    }));
+  }, []);
 
   // Memoized week dates generation
   const weekDates = useMemo(() => {
@@ -58,20 +53,14 @@ const CalendarGrid: React.FC<CalendarGridProps> = React.memo(({
     
     weekDates.forEach((date, dayIndex) => {
       timeSlots.forEach(timeSlot => {
-        const slotKey = `${dayIndex}-${timeSlot}`;
-        const slotStart = new Date(date);
-        const [hours, minutes] = timeSlot.split(':').map(Number);
-        slotStart.setHours(hours, minutes, 0, 0);
+        const slotKey = `${dayIndex}-${timeSlot.value}`;
         
-        const slotEnd = new Date(slotStart);
-        slotEnd.setHours(hours + 1, 0, 0, 0);
-
         const slotTasks = tasks.filter(task => {
-          const taskStart = new Date(task.scheduledStart);
-          const taskEnd = new Date(task.scheduledEnd);
+          const taskDate = new Date(task.scheduledStart);
+          const isSameDay = taskDate.toDateString() === date.toDateString();
+          const isSameTimeSlot = task.timeSlot === timeSlot.value;
           
-          // Check if task overlaps with this time slot
-          return taskStart < slotEnd && taskEnd > slotStart;
+          return isSameDay && isSameTimeSlot;
         });
         
         taskMap.set(slotKey, slotTasks);
@@ -82,8 +71,8 @@ const CalendarGrid: React.FC<CalendarGridProps> = React.memo(({
   }, [weekDates, timeSlots, tasks]);
 
   // Optimized task getter
-  const getTasksForSlot = useCallback((dayIndex: number, timeSlot: string) => {
-    const slotKey = `${dayIndex}-${timeSlot}`;
+  const getTasksForSlot = useCallback((dayIndex: number, timeSlotValue: TimeSlotType) => {
+    const slotKey = `${dayIndex}-${timeSlotValue}`;
     return tasksBySlot.get(slotKey) || [];
   }, [tasksBySlot]);
 
@@ -110,22 +99,22 @@ const CalendarGrid: React.FC<CalendarGridProps> = React.memo(({
       {/* Time slots grid */}
       <div className={styles.gridBody}>
         {timeSlots.map((timeSlot) => (
-          <div key={timeSlot} className={styles.timeRow}>
+          <div key={timeSlot.value} className={styles.timeRow}>
             {/* Time label */}
             <div className={styles.timeLabel}>
-              {timeSlot}
+              {timeSlot.label}
             </div>
             
             {/* Time slots for each day */}
             {weekDates.map((date, dayIndex) => {
-              const slotTasks = getTasksForSlot(dayIndex, timeSlot);
+              const slotTasks = getTasksForSlot(dayIndex, timeSlot.value);
               const isWorking = isWorkingDay(date);
               
               return (
                 <TimeSlot
-                  key={`${dayIndex}-${timeSlot}`}
+                  key={`${dayIndex}-${timeSlot.value}`}
                   date={date}
-                  timeSlot={timeSlot}
+                  timeSlot={timeSlot.value}
                   tasks={slotTasks}
                   isWorkingTime={isWorking}
                   onTaskDrop={onTaskDrop}

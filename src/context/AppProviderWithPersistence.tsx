@@ -38,7 +38,7 @@ export const AppProviderWithPersistence: React.FC<AppProviderWithPersistenceProp
 
         // Load data from localStorage
         const channels = localStorageService.getChannels();
-        const templates = localStorageService.getTemplates();
+        const taskTemplates = localStorageService.getTaskTemplates();
         const userSettings = localStorageService.getUserSettings();
         
         // Load current week schedule
@@ -56,7 +56,7 @@ export const AppProviderWithPersistence: React.FC<AppProviderWithPersistenceProp
         // Create initial state
         const restoredState: AppState = {
           channels,
-          templates,
+          taskTemplates,
           currentWeek,
           selectedChannelId: undefined,
           userSettings,
@@ -75,7 +75,7 @@ export const AppProviderWithPersistence: React.FC<AppProviderWithPersistenceProp
         // Fallback to default state
         const defaultState: AppState = {
           channels: [],
-          templates: [],
+          taskTemplates: [],
           currentWeek: {
             weekStartDate: new Date(),
             tasks: [],
