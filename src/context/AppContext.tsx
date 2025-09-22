@@ -19,6 +19,7 @@ const initialState: AppState = {
     weeklyCapacityHours: 40,
     workingDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
     workingHours: { start: '09:00', end: '17:00' },
+    customContentTypes: ['General'],
   },
   ui: {
     activeView: 'dashboard',

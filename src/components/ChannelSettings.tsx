@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Channel, ChannelContentType, PostingFrequency, ChannelTaskAssignment, TaskPriority } from '../types';
 import { useAppContext } from '../context/AppContext';
 import { ChannelValidator } from '../services/validation';
-import { CHANNEL_CONTENT_TYPES, POSTING_FREQUENCIES, DAYS_OF_WEEK, CHANNEL_COLORS, TASK_PRIORITIES } from '../utils/constants';
+import { POSTING_FREQUENCIES, DAYS_OF_WEEK, CHANNEL_COLORS, TASK_PRIORITIES } from '../utils/constants';
+import { ContentTypeManager } from './ContentTypeManager';
 import styles from './ChannelSettings.module.css';
 
 interface ChannelSettingsProps {
@@ -367,22 +368,11 @@ export const ChannelSettings: React.FC<ChannelSettingsProps> = ({ isOpen, channe
 
           {/* Content Type */}
           <div className={styles.formGroup}>
-            <label htmlFor="contentType" className={styles.label}>
-              Content Type *
-            </label>
-            <select
-              id="contentType"
-              value={formData.contentType}
-              onChange={(e) => handleInputChange('contentType', e.target.value as ChannelContentType)}
-              className={`${styles.select} ${errors.contentType ? styles.inputError : ''}`}
+            <ContentTypeManager
+              selectedContentType={formData.contentType}
+              onContentTypeChange={(contentType) => handleInputChange('contentType', contentType)}
               disabled={isSubmitting}
-            >
-              {CHANNEL_CONTENT_TYPES.map(type => (
-                <option key={type.value} value={type.value}>
-                  {type.label}
-                </option>
-              ))}
-            </select>
+            />
             {errors.contentType && (
               <span className={styles.fieldError} role="alert">
                 {errors.contentType}

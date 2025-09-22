@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Type Manager Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #e8f5e8;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎯 Content Type Manager Implementation</h1>
+        
+        <h2>✅ Features Implemented</h2>
+        <ul class="feature-list">
+            <li><strong>Custom Content Type Input:</strong> Users can add custom content types beyond the predefined ones</li>
+            <li><strong>Save for Reuse:</strong> Custom content types are saved in user settings and persist across sessions</li>
+            <li><strong>Delete Custom Types:</strong> Users can remove custom content types they no longer need</li>
+            <li><strong>Integrated UI:</strong> Seamlessly integrated into both Add Channel and Edit Channel modals</li>
+            <li><strong>Validation:</strong> Prevents duplicates and validates input length</li>
+            <li><strong>Visual Distinction:</strong> Custom types are marked as "(Custom)" in the dropdown</li>
+        </ul>
+
+        <h2>🔧 Technical Implementation</h2>
+        
+        <h3>New Component: ContentTypeManager</h3>
+        <div class="code-block">
+src/components/ContentTypeManager.tsx
+src/components/ContentTypeManager.module.css
+        </div>
+
+        <h3>Updated Files:</h3>
+        <div class="code-block">
+src/types/index.ts - Updated Channel interface and types
+src/utils/constants.ts - Added customContentTypes to DEFAULT_USER_SETTINGS
+src/components/ChannelSettings.tsx - Integrated ContentTypeManager
+src/components/AddChannelModal.tsx - Integrated ContentTypeManager
+src/context/AppProviderWithPersistence.tsx - Added customContentTypes support
+        </div>
+
+        <h2>🎮 How to Use</h2>
+        <ol>
+            <li><strong>Add Custom Content Type:</strong>
+                <ul>
+                    <li>Go to Dashboard → Add Channel or edit existing channel</li>
+                    <li>In the Content Type section, click the "+" button</li>
+                    <li>Enter your custom content type name (e.g., "Tech Reviews", "Cooking Tutorials")</li>
+                    <li>Click "Save" to add it to your available types</li>
+                </ul>
+            </li>
+            <li><strong>Use Custom Content Type:</strong>
+                <ul>
+                    <li>Select your custom type from the dropdown</li>
+                    <li>It will appear with "(Custom)" label to distinguish from predefined types</li>
+                </ul>
+            </li>
+            <li><strong>Manage Custom Types:</strong>
+                <ul>
+                    <li>View all your custom types in the "Custom Content Types" section</li>
+                    <li>Click the "×" button next to any custom type to delete it</li>
+                    <li>If you delete a type that's currently selected, it will switch to "Other"</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>💾 Data Persistence</h2>
+        <div class="note">
+            <strong>Note:</strong> Custom content types are stored in your browser's localStorage under user settings. 
+            They will persist across browser sessions and be included in data exports/backups.
+        </div>
+
+        <h2>🔍 Features in Detail</h2>
+        
+        <h3>Validation Rules:</h3>
+        <ul>
+            <li>Content type name is required</li>
+            <li>Maximum 50 characters</li>
+            <li>No duplicates (case-insensitive)</li>
+            <li>Cannot duplicate predefined types</li>
+        </ul>
+
+        <h3>User Experience:</h3>
+        <ul>
+            <li>Inline form for adding new types</li>
+            <li>Real-time validation feedback</li>
+            <li>Automatic selection of newly created types</li>
+            <li>Confirmation before deletion</li>
+            <li>Graceful handling when deleting currently selected type</li>
+        </ul>
+
+        <h2>🚀 Ready to Test</h2>
+        <p>Start the development server and navigate to the Dashboard to test the new content type management features!</p>
+        
+        <div class="code-block">
+npm run dev
+# or
+yarn dev
+        </div>
+    </div>
+</body>
+</html>

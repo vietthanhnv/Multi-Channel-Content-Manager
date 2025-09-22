@@ -4,7 +4,8 @@ import { useAppContext } from '../context/AppContext';
 import { useUserSettings } from '../hooks/useUserSettings';
 import { ChannelValidator } from '../services/validation';
 import { UserSettingsIntegrationService } from '../services/userSettingsIntegration';
-import { CHANNEL_CONTENT_TYPES, POSTING_FREQUENCIES, DAYS_OF_WEEK, CHANNEL_COLORS } from '../utils/constants';
+import { POSTING_FREQUENCIES, DAYS_OF_WEEK, CHANNEL_COLORS } from '../utils/constants';
+import { ContentTypeManager } from './ContentTypeManager';
 import { generateId } from '../utils/helpers';
 import styles from './AddChannelModal.module.css';
 
@@ -33,7 +34,7 @@ interface FormErrors {
 
 const initialFormData: FormData = {
   name: '',
-  contentType: 'other',
+  contentType: 'General', // Default to the starter content type
   frequency: 'weekly',
   preferredDays: [],
   preferredTimes: [],
@@ -59,8 +60,12 @@ export const AddChannelModal: React.FC<AddChannelModalProps> = ({ isOpen, onClos
     
     const defaultTime = UserSettingsIntegrationService.getDefaultPostingTime(userSettings);
     
+    // Use first available custom content type or empty string
+    const defaultContentType = (state.userSettings.customContentTypes || [])[0] || '';
+    
     return {
       ...initialFormData,
+      contentType: defaultContentType,
       preferredDays: defaultDays,
       preferredTimes: [defaultTime],
       color: getNextAvailableColor(),
@@ -299,22 +304,11 @@ export const AddChannelModal: React.FC<AddChannelModalProps> = ({ isOpen, onClos
 
           {/* Content Type */}
           <div className={styles.formGroup}>
-            <label htmlFor="contentType" className={styles.label}>
-              Content Type *
-            </label>
-            <select
-              id="contentType"
-              value={formData.contentType}
-              onChange={(e) => handleInputChange('contentType', e.target.value as ChannelContentType)}
-              className={`${styles.select} ${errors.contentType ? styles.inputError : ''}`}
+            <ContentTypeManager
+              selectedContentType={formData.contentType}
+              onContentTypeChange={(contentType) => handleInputChange('contentType', contentType)}
               disabled={isSubmitting}
-            >
-              {CHANNEL_CONTENT_TYPES.map(type => (
-                <option key={type.value} value={type.value}>
-                  {type.label}
-                </option>
-              ))}
-            </select>
+            />
             {errors.contentType && (
               <span className={styles.fieldError} role="alert">
                 {errors.contentType}

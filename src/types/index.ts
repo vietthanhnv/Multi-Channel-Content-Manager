@@ -3,7 +3,7 @@
 export interface Channel {
   id: string;
   name: string;
-  contentType: 'gaming' | 'educational' | 'entertainment' | 'lifestyle' | 'other';
+  contentType: string; // Can be predefined or custom content type
   postingSchedule: {
     frequency: 'daily' | 'weekly' | 'biweekly' | 'monthly';
     preferredDays: string[];
@@ -65,6 +65,7 @@ export interface AppState {
     weeklyCapacityHours: number;
     workingDays: string[];
     workingHours: { start: string; end: string };
+    customContentTypes?: string[];
   };
   ui: {
     activeView: 'dashboard' | 'templates' | 'calendar' | 'analytics';
@@ -98,6 +99,6 @@ export type TaskStatus = 'planned' | 'in-progress' | 'completed' | 'overdue';
 export type TaskPriority = 'low' | 'medium' | 'high';
 export type TaskCategory = 'content-creation' | 'production' | 'marketing' | 'admin' | 'other';
 export type TimeSlot = 'morning' | 'afternoon' | 'evening';
-export type ChannelContentType = 'gaming' | 'educational' | 'entertainment' | 'lifestyle' | 'other';
+export type ChannelContentType = string; // Can be predefined or custom content type
 export type PostingFrequency = 'daily' | 'weekly' | 'biweekly' | 'monthly';
 export type AppView = 'dashboard' | 'templates' | 'calendar' | 'analytics';

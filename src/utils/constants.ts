@@ -17,6 +17,7 @@ export const DEFAULT_USER_SETTINGS = {
   weeklyCapacityHours: 40,
   workingDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
   workingHours: { start: '09:00', end: '17:00' },
+  customContentTypes: ['General'], // Start with one default type that users can modify
 };
 
 // Task category options
@@ -42,14 +43,8 @@ export const TIME_SLOTS = [
   { value: 'evening', label: 'Evening (5PM - 9PM)' },
 ] as const;
 
-// Channel content type options
-export const CHANNEL_CONTENT_TYPES = [
-  { value: 'gaming', label: 'Gaming' },
-  { value: 'educational', label: 'Educational' },
-  { value: 'entertainment', label: 'Entertainment' },
-  { value: 'lifestyle', label: 'Lifestyle' },
-  { value: 'other', label: 'Other' },
-] as const;
+// Channel content type options (now fully custom - no predefined types)
+// Content types are managed through user settings customContentTypes array
 
 // Posting frequency options
 export const POSTING_FREQUENCIES = [

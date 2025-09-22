@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Content Types Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-step {
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #3b82f6;
+            background-color: #f8fafc;
+        }
+        .success {
+            border-left-color: #10b981;
+            background-color: #f0fdf4;
+        }
+        .warning {
+            border-left-color: #f59e0b;
+            background-color: #fffbeb;
+        }
+        .error {
+            border-left-color: #ef4444;
+            background-color: #fef2f2;
+        }
+        .code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Custom Content Types - Testing Guide</h1>
+        <p>Follow these steps to test the custom content type functionality:</p>
+    </div>
+
+    <div class="test-container">
+        <h2>✅ Step 1: Add Custom Content Type</h2>
+        <div class="test-step">
+            <strong>Action:</strong> Go to Dashboard → Add Channel or Edit existing channel
+            <br><strong>Expected:</strong> You should see a Content Type section with a dropdown and a "+" button
+        </div>
+        <div class="test-step">
+            <strong>Action:</strong> Click the "+" button next to the Content Type dropdown
+            <br><strong>Expected:</strong> An inline form should appear with an input field and Save/Cancel buttons
+        </div>
+        <div class="test-step">
+            <strong>Action:</strong> Enter a custom content type like "Tech Reviews" and click Save
+            <br><strong>Expected:</strong> The form should close, and "Tech Reviews" should be selected in the dropdown with "(Custom)" label
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>✅ Step 2: Verify Custom Type Persistence</h2>
+        <div class="test-step">
+            <strong>Action:</strong> Refresh the page or close/reopen the modal
+            <br><strong>Expected:</strong> Your custom content type should still be available in the dropdown
+        </div>
+        <div class="test-step">
+            <strong>Action:</strong> Check browser console for debug logs
+            <br><strong>Expected:</strong> You should see logs like <span class="code">ContentTypeManager - Custom content types: ["Tech Reviews"]</span>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>✅ Step 3: Test Custom Type Management</h2>
+        <div class="test-step">
+            <strong>Action:</strong> After adding a custom type, look for "Custom Content Types" section
+            <br><strong>Expected:</strong> You should see a section titled "Custom Content Types (You can delete these)" with your custom types listed
+        </div>
+        <div class="test-step">
+            <strong>Action:</strong> Click the "×" button next to a custom content type
+            <br><strong>Expected:</strong> A confirmation dialog should appear asking if you want to delete it
+        </div>
+        <div class="test-step">
+            <strong>Action:</strong> Confirm the deletion
+            <br><strong>Expected:</strong> The custom type should be removed from the list and dropdown
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>🚫 Step 4: Verify Predefined Types Cannot Be Deleted</h2>
+        <div class="test-step warning">
+            <strong>Important:</strong> Only custom content types should have delete buttons
+            <br><strong>Expected:</strong> Gaming, Educational, Entertainment, Lifestyle, and Other should NOT have delete buttons anywhere in the UI
+        </div>
+        <div class="test-step">
+            <strong>Action:</strong> Look at the "Custom Content Types" section
+            <br><strong>Expected:</strong> Only your custom types should appear here, not the predefined ones
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>🔍 Troubleshooting</h2>
+        
+        <div class="test-step error">
+            <strong>Issue:</strong> Custom types not saving
+            <br><strong>Check:</strong> Browser console for errors, localStorage permissions
+            <br><strong>Solution:</strong> Clear localStorage and try again: <span class="code">localStorage.clear()</span>
+        </div>
+
+        <div class="test-step error">
+            <strong>Issue:</strong> Delete button not working
+            <br><strong>Check:</strong> Console for error messages, confirm dialog appearing
+            <br><strong>Solution:</strong> Make sure you're clicking "OK" in the confirmation dialog
+        </div>
+
+        <div class="test-step error">
+            <strong>Issue:</strong> Custom types not appearing in dropdown
+            <br><strong>Check:</strong> Console logs for user settings, app state
+            <br><strong>Solution:</strong> Refresh page, check if customContentTypes array exists in localStorage
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>🎯 Expected Behavior Summary</h2>
+        <ul>
+            <li>✅ Can add custom content types via "+" button</li>
+            <li>✅ Custom types appear in dropdown with "(Custom)" label</li>
+            <li>✅ Custom types persist across page refreshes</li>
+            <li>✅ Can delete custom types with confirmation</li>
+            <li>✅ Predefined types (Gaming, Educational, etc.) cannot be deleted</li>
+            <li>✅ Validation prevents duplicates and empty names</li>
+            <li>✅ If selected custom type is deleted, switches to "Other"</li>
+        </ul>
+    </div>
+
+    <div class="test-container">
+        <h2>🛠️ Debug Commands</h2>
+        <p>Open browser console and run these commands to debug:</p>
+        <div class="test-step">
+            <strong>Check localStorage:</strong><br>
+            <span class="code">console.log(JSON.parse(localStorage.getItem('mcm_user_settings')))</span>
+        </div>
+        <div class="test-step">
+            <strong>Clear all data:</strong><br>
+            <span class="code">localStorage.clear(); location.reload();</span>
+        </div>
+        <div class="test-step">
+            <strong>Add test custom type:</strong><br>
+            <span class="code">
+                const settings = JSON.parse(localStorage.getItem('mcm_user_settings') || '{}');<br>
+                settings.customContentTypes = ['Tech Reviews', 'Gaming Tutorials'];<br>
+                localStorage.setItem('mcm_user_settings', JSON.stringify(settings));<br>
+                location.reload();
+            </span>
+        </div>
+    </div>
+</body>
+</html>

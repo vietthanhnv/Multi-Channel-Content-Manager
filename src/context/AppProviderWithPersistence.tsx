@@ -2,6 +2,7 @@ import React, { useEffect, useState, ReactNode } from 'react';
 import { AppProvider } from './AppContext';
 import { localStorageService } from '../services/localStorage';
 import { enhancedPersistenceService } from '../services/enhancedPersistence';
+import { ContentTypeMigration } from '../utils/contentTypeMigration';
 import { AppState, WeeklySchedule } from '../types';
 
 interface AppProviderWithPersistenceProps {
@@ -39,6 +40,9 @@ export const AppProviderWithPersistence: React.FC<AppProviderWithPersistenceProp
 
         // Initialize enhanced persistence service
         enhancedPersistenceService.initialize();
+
+        // Run content type migration if needed
+        ContentTypeMigration.autoMigrateIfNeeded();
 
         // Try to load state using enhanced persistence service
         let restoredState = await enhancedPersistenceService.loadAppState();
@@ -98,6 +102,7 @@ export const AppProviderWithPersistence: React.FC<AppProviderWithPersistenceProp
             weeklyCapacityHours: 40,
             workingDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
             workingHours: { start: '09:00', end: '17:00' },
+            customContentTypes: ['General'],
           },
           ui: {
             activeView: 'dashboard',
