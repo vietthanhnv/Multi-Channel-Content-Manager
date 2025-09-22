@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
 import { AppState, AppAction, WeeklySchedule } from '../types';
 import { debouncedLocalStorageService } from '../services/debouncedLocalStorage';
+import { enhancedPersistenceService } from '../services/enhancedPersistence';
 
 // Initial state
 const initialState: AppState = {
@@ -237,28 +238,25 @@ export const AppProvider: React.FC<AppProviderProps> = ({
 }) => {
   const [state, dispatch] = useReducer(appReducer, providedInitialState || initialState);
 
-  // Debounced localStorage updates
+  // Enhanced persistence with automatic backups
   useEffect(() => {
-    debouncedLocalStorageService.debouncedUpdateChannels(state.channels);
-  }, [state.channels]);
+    const saveState = async () => {
+      try {
+        await enhancedPersistenceService.saveAppState(state);
+      } catch (error) {
+        console.error('❌ Failed to save app state:', error);
+      }
+    };
 
-  useEffect(() => {
-    debouncedLocalStorageService.debouncedUpdateTaskTemplates(state.taskTemplates);
-  }, [state.taskTemplates]);
-
-  useEffect(() => {
-    const weekKey = state.currentWeek.weekStartDate.toISOString().split('T')[0];
-    debouncedLocalStorageService.debouncedUpdateSchedule(weekKey, state.currentWeek);
-  }, [state.currentWeek]);
-
-  useEffect(() => {
-    debouncedLocalStorageService.debouncedUpdateUserSettings(state.userSettings);
-  }, [state.userSettings]);
+    // Debounce the save operation
+    const timeoutId = setTimeout(saveState, 500);
+    return () => clearTimeout(timeoutId);
+  }, [state.channels, state.taskTemplates, state.currentWeek, state.userSettings]);
 
   // Flush pending updates when component unmounts
   useEffect(() => {
     return () => {
-      debouncedLocalStorageService.flushPendingUpdates();
+      enhancedPersistenceService.flushPendingSaves();
     };
   }, []);
 

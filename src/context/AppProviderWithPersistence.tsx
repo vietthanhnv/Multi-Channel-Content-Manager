@@ -1,6 +1,7 @@
 import React, { useEffect, useState, ReactNode } from 'react';
 import { AppProvider } from './AppContext';
 import { localStorageService } from '../services/localStorage';
+import { enhancedPersistenceService } from '../services/enhancedPersistence';
 import { AppState, WeeklySchedule } from '../types';
 
 interface AppProviderWithPersistenceProps {
@@ -36,40 +37,49 @@ export const AppProviderWithPersistence: React.FC<AppProviderWithPersistenceProp
         setIsLoading(true);
         setError(null);
 
-        // Load data from localStorage
-        const channels = localStorageService.getChannels();
-        const taskTemplates = localStorageService.getTaskTemplates();
-        const userSettings = localStorageService.getUserSettings();
-        
-        // Load current week schedule
-        const currentWeekKey = getWeekKey(new Date());
-        const currentWeekSchedule = localStorageService.getSchedule(currentWeekKey);
-        
-        const currentWeek: WeeklySchedule = currentWeekSchedule || {
-          weekStartDate: new Date(),
-          tasks: [],
-          totalScheduledHours: 0,
-          userCapacityHours: userSettings.weeklyCapacityHours,
-          isOverloaded: false,
-        };
+        // Initialize enhanced persistence service
+        enhancedPersistenceService.initialize();
 
-        // Create initial state
-        const restoredState: AppState = {
-          channels,
-          taskTemplates,
-          currentWeek,
-          selectedChannelId: undefined,
-          userSettings,
-          ui: {
-            activeView: 'dashboard',
-            isLoading: false,
-            errors: [],
-          },
-        };
+        // Try to load state using enhanced persistence service
+        let restoredState = await enhancedPersistenceService.loadAppState();
+
+        // Fallback to direct localStorage if enhanced service fails
+        if (!restoredState) {
+          console.log('🔄 Falling back to direct localStorage...');
+          
+          const channels = localStorageService.getChannels();
+          const taskTemplates = localStorageService.getTaskTemplates();
+          const userSettings = localStorageService.getUserSettings();
+          
+          // Load current week schedule
+          const currentWeekKey = getWeekKey(new Date());
+          const currentWeekSchedule = localStorageService.getSchedule(currentWeekKey);
+          
+          const currentWeek: WeeklySchedule = currentWeekSchedule || {
+            weekStartDate: new Date(),
+            tasks: [],
+            totalScheduledHours: 0,
+            userCapacityHours: userSettings.weeklyCapacityHours,
+            isOverloaded: false,
+          };
+
+          restoredState = {
+            channels,
+            taskTemplates,
+            currentWeek,
+            selectedChannelId: undefined,
+            userSettings,
+            ui: {
+              activeView: 'dashboard',
+              isLoading: false,
+              errors: [],
+            },
+          };
+        }
 
         setInitialState(restoredState);
       } catch (error) {
-        console.error('Failed to load initial state from localStorage:', error);
+        console.error('❌ Failed to load initial state:', error);
         setError('Failed to load saved data. Using default settings.');
         
         // Fallback to default state
@@ -103,6 +113,11 @@ export const AppProviderWithPersistence: React.FC<AppProviderWithPersistenceProp
     };
 
     loadInitialState();
+
+    // Cleanup on unmount
+    return () => {
+      enhancedPersistenceService.destroy();
+    };
   }, []);
 
   // Show loading state while initializing

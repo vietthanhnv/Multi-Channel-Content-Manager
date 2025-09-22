@@ -8,6 +8,7 @@ import { ChannelGrid } from './components/ChannelGrid';
 import { TaskTemplateLibrary } from './components/TaskTemplateLibrary';
 import { TaskTemplateEditor } from './components/TaskTemplateEditor';
 import CalendarGrid from './components/CalendarGrid';
+import ChannelTaskCalendar from './components/ChannelTaskCalendar';
 import { AddTaskModal } from './components/AddTaskModal';
 import { ProgressTrackingDemo } from './components/ProgressTrackingDemo';
 import { UserSettings } from './components/UserSettings';
@@ -165,9 +166,8 @@ const AppContent: React.FC<AppContentProps> = React.memo(() => {
                 </div>
               </div>
             ) : (
-              <CalendarGrid
+              <ChannelTaskCalendar
                 weekStartDate={currentWeekStart}
-                tasks={state.currentWeek.tasks}
                 workingHours={state.userSettings.workingHours}
                 workingDays={state.userSettings.workingDays}
                 onTaskDrop={handleTaskDrop}

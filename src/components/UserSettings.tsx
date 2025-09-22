@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUserSettings } from '../hooks/useUserSettings';
+import DataManagementPanel from './DataManagementPanel';
 import styles from './UserSettings.module.css';
 
 interface UserSettingsProps {
@@ -194,6 +195,11 @@ export const UserSettings: React.FC<UserSettingsProps> = ({ onClose }) => {
               End time must be after start time
             </div>
           )}
+        </section>
+
+        {/* Data Management Section */}
+        <section className={styles.section}>
+          <DataManagementPanel />
         </section>
       </div>
 

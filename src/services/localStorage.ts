@@ -96,9 +96,17 @@ export class LocalStorageService {
    */
   private setItem<T>(key: string, value: T): void {
     try {
-      const serialized = JSON.stringify(value);
+      const serialized = JSON.stringify(value, (key, val) => {
+        // Handle Date objects properly
+        if (val instanceof Date) {
+          return val.toISOString();
+        }
+        return val;
+      });
       localStorage.setItem(key, serialized);
+      console.log(`✅ Saved to localStorage: ${key}`, value);
     } catch (error) {
+      console.error(`❌ Failed to save to localStorage: ${key}`, error);
       if (error instanceof DOMException && error.code === 22) {
         throw new QuotaExceededError();
       }
@@ -113,12 +121,22 @@ export class LocalStorageService {
     try {
       const item = localStorage.getItem(key);
       if (item === null) {
+        console.log(`📂 No data found for ${key}, using default:`, defaultValue);
         return defaultValue;
       }
-      return JSON.parse(item);
+      const parsed = JSON.parse(item, (key, value) => {
+        // Handle Date strings properly
+        if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(value)) {
+          return new Date(value);
+        }
+        return value;
+      });
+      console.log(`📂 Loaded from localStorage: ${key}`, parsed);
+      return parsed;
     } catch (error) {
-      console.error(`Failed to parse localStorage item: ${key}`, error);
-      throw new DataCorruptionError(key);
+      console.error(`❌ Failed to parse localStorage item: ${key}`, error);
+      console.log(`📂 Using default value for ${key}:`, defaultValue);
+      return defaultValue;
     }
   }
 

@@ -249,7 +249,6 @@ export class DataBackupService {
   checkStorageSpace(): { available: boolean; usedSpace: number; totalSpace: number } {
     try {
       const testKey = 'mcm_storage_test';
-      const testData = 'x'.repeat(1024); // 1KB test data
       let usedSpace = 0;
       let totalSpace = 0;
 
@@ -284,7 +283,7 @@ export class DataBackupService {
   }
 
   private generateBackupId(): string {
-    return Date.now().toString() + '_' + Math.random().toString(36).substr(2, 9);
+    return Date.now().toString() + '_' + Math.random().toString(36).substring(2, 11);
   }
 
   private getFromStorage<T>(key: string, defaultValue: T): T {
